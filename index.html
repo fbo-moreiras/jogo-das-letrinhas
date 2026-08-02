@@ -11,8 +11,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Reino das Letras">
+
 <style>
   :root{
+    --mw: 640px;
     --ceu: #6EC6E3;
     --ceu-escuro: #4CA9CC;
     --grama: #8FD14F;
@@ -24,9 +26,9 @@
     --tinta: #2B2340;
     --branco: #FFFDF8;
     --sombra: rgba(43,35,64,0.25);
-    --casinha-w: 15vw;
-    --avatar-w: 18vw;
-    --bolha-w: 14vw;
+    --casinha-w: calc(var(--mw) * 15 / 100);
+    --avatar-w: calc(var(--mw) * 18 / 100);
+    --bolha-w: calc(var(--mw) * 14 / 100);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
   html{ height:100%; }
@@ -58,7 +60,7 @@
     #moldura{ margin: 2vh auto; height: 96vh; border-radius: 20px; flex-shrink:0; }
   }
   h1,h2,h3, .titulo{ font-family:'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', sans-serif; }
-  h2.titulo{ font-size: 6vw; font-weight:800; margin: 1.2vh 0; line-height:1.2; }
+  h2.titulo{ font-size: calc(var(--mw) * 6 / 100); font-weight:800; margin: 1.2vh 0; line-height:1.2; }
 
   #app{ position:relative; z-index:1; width:100%; min-height:100%; }
 
@@ -68,8 +70,8 @@
     flex-direction:column;
     align-items:center;
     justify-content:flex-start;
-    padding: 3vh 4vw;
-    padding: 3vh 4vw calc(3vh + env(safe-area-inset-bottom, 0px)) 4vw;
+    padding: 3vh calc(var(--mw) * 4 / 100);
+    padding: 3vh calc(var(--mw) * 4 / 100) calc(3vh + env(safe-area-inset-bottom, 0px)) calc(var(--mw) * 4 / 100);
     overflow-y:auto;
     -webkit-overflow-scrolling: touch;
     min-height:100%;
@@ -78,28 +80,28 @@
   @keyframes entra{ from{opacity:0;} to{opacity:1;} }
 
   .sol{
-    position:absolute; top:3vh; right:5vw;
-    width:9vw; height:9vw; border-radius:50%;
+    position:absolute; top:3vh; right:calc(var(--mw) * 5 / 100);
+    width:calc(var(--mw) * 9 / 100); height:calc(var(--mw) * 9 / 100); border-radius:50%;
     background: radial-gradient(circle at 35% 35%, #FFE58A, var(--sol));
     box-shadow: 0 0 24px 8px rgba(255,212,71,0.5);
     pointer-events:none;
   }
   .nuvem{ position:absolute; background:rgba(255,255,255,0.85); border-radius:50%; pointer-events:none; z-index:0; }
   .nuvem::before, .nuvem::after{ content:""; position:absolute; background:inherit; border-radius:50%; }
-  .nuvem1{ top:6vh; left:8vw; width:14vw; height:5vh; }
-  .nuvem1::before{ width:8vw; height:8vw; top:-4vw; left:1vw; }
-  .nuvem1::after{ width:6vw; height:6vw; top:-3vw; left:7vw; }
-  .nuvem2{ top:12vh; right:14vw; width:11vw; height:4vh; opacity:0.8; }
-  .nuvem2::before{ width:6vw; height:6vw; top:-3vw; left:1vw; }
-  .nuvem2::after{ width:5vw; height:5vw; top:-2.5vw; left:5vw; }
+  .nuvem1{ top:6vh; left:calc(var(--mw) * 8 / 100); width:calc(var(--mw) * 14 / 100); height:5vh; }
+  .nuvem1::before{ width:calc(var(--mw) * 8 / 100); height:calc(var(--mw) * 8 / 100); top:calc(var(--mw) * -4 / 100); left:calc(var(--mw) * 1 / 100); }
+  .nuvem1::after{ width:calc(var(--mw) * 6 / 100); height:calc(var(--mw) * 6 / 100); top:calc(var(--mw) * -3 / 100); left:calc(var(--mw) * 7 / 100); }
+  .nuvem2{ top:12vh; right:calc(var(--mw) * 14 / 100); width:calc(var(--mw) * 11 / 100); height:4vh; opacity:0.8; }
+  .nuvem2::before{ width:calc(var(--mw) * 6 / 100); height:calc(var(--mw) * 6 / 100); top:calc(var(--mw) * -3 / 100); left:calc(var(--mw) * 1 / 100); }
+  .nuvem2::after{ width:calc(var(--mw) * 5 / 100); height:calc(var(--mw) * 5 / 100); top:calc(var(--mw) * -2.5 / 100); left:calc(var(--mw) * 5 / 100); }
   .argola{
-    position:absolute; border-radius:50%; border: 1vw solid var(--sol);
+    position:absolute; border-radius:50%; border: calc(var(--mw) * 1 / 100) solid var(--sol);
     background:transparent; pointer-events:none; z-index:0;
     box-shadow: 0 0 10px rgba(255,212,71,0.6);
     animation: flutua 4s ease-in-out infinite;
   }
-  .argola1{ top:38vh; left:6vw; width:6vw; height:6vw; }
-  .argola2{ top:22vh; right:22vw; width:5vw; height:5vw; animation-delay:1.5s; }
+  .argola1{ top:38vh; left:calc(var(--mw) * 6 / 100); width:calc(var(--mw) * 6 / 100); height:calc(var(--mw) * 6 / 100); }
+  .argola2{ top:22vh; right:calc(var(--mw) * 22 / 100); width:calc(var(--mw) * 5 / 100); height:calc(var(--mw) * 5 / 100); animation-delay:1.5s; }
   .colinas{
     position:absolute; left:0; right:0; top:60%; height:8vh; z-index:0;
     pointer-events:none; opacity:0.55;
@@ -115,7 +117,7 @@
     background: var(--branco);
     border-radius: 24px;
     box-shadow: 0 8px 0 var(--sombra), 0 12px 26px rgba(43,35,64,0.15);
-    padding: 3vh 4vw;
+    padding: 3vh calc(var(--mw) * 4 / 100);
     max-width: 620px;
     width:100%;
     text-align:center;
@@ -123,7 +125,7 @@
   }
 
   .titulo-jogo{
-    font-size: 8vw;
+    font-size: calc(var(--mw) * 8 / 100);
     color: var(--branco);
     text-shadow: 0 4px 0 var(--coral-escuro), 0 8px 16px rgba(0,0,0,0.2);
     margin: 1.5vh 0 1vh 0;
@@ -132,7 +134,7 @@
   }
 
   .subtitulo{
-    font-size: 2.6vw;
+    font-size: calc(var(--mw) * 2.6 / 100);
     font-weight:700;
     max-width: 90%;
     line-height:1.5;
@@ -142,14 +144,14 @@
   .balao-fala{
     background: var(--branco);
     border-radius: 20px;
-    padding: 2.2vh 4vw;
+    padding: 2.2vh calc(var(--mw) * 4 / 100);
     max-width: 560px;
     position:relative;
     box-shadow: 0 5px 0 var(--sombra);
     margin: 0 auto 2vh auto;
   }
   .balao-nome{ font-family:'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', sans-serif; font-weight:800; color: var(--magia); }
-  .balao-texto{ font-size: 2.6vw; font-weight:700; line-height:1.5; margin:4px 0 0 0;}
+  .balao-texto{ font-size: calc(var(--mw) * 2.6 / 100); font-weight:700; line-height:1.5; margin:4px 0 0 0;}
 
   .npc-avatar{
     width: var(--avatar-w); height:var(--avatar-w); border-radius:50%;
@@ -167,9 +169,9 @@
   .btn-grande{
     background: var(--coral);
     color: var(--branco);
-    font-size: 3vw;
+    font-size: calc(var(--mw) * 3 / 100);
     font-weight:700;
-    padding: 1.6vh 6vw;
+    padding: 1.6vh calc(var(--mw) * 6 / 100);
     border-radius: 999px;
     box-shadow: 0 6px 0 var(--coral-escuro);
     margin: 6px;
@@ -181,22 +183,22 @@
   .btn-audio{
     background: var(--magia);
     color: var(--branco);
-    width:10vw; height:10vw; border-radius:50%;
-    font-size:3vw;
+    width:calc(var(--mw) * 10 / 100); height:calc(var(--mw) * 10 / 100); border-radius:50%;
+    font-size:calc(var(--mw) * 3 / 100);
     box-shadow: 0 5px 0 #7748AD;
-    position:absolute; top:2.5vh; left:3vw;
+    position:absolute; top:2.5vh; left:calc(var(--mw) * 3 / 100);
     z-index:5;
   }
   .btn-audio:active{ transform: translateY(4px); box-shadow:none; }
 
   .btn-reset{
-    position:absolute; bottom:1vh; right:2vw;
+    position:absolute; bottom:1vh; right:calc(var(--mw) * 2 / 100);
     background:none; color: rgba(43,35,64,0.55);
     font-size:0.7rem; font-family:'Nunito', -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:700;
     text-decoration:underline; padding:6px;
   }
   .btn-home{
-    position:absolute; bottom:1.5vh; left:2vw;
+    position:absolute; bottom:1.5vh; left:calc(var(--mw) * 2 / 100);
     background: var(--magia); color:var(--branco);
     width:44px; height:44px; border-radius:50%;
     font-size:1.3rem;
@@ -211,8 +213,8 @@
   }
   @keyframes girar{ to{ transform:rotate(360deg); } }
   .capa-jogo-avatar{
-    width:26vw; height:26vw; max-width:150px; max-height:150px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; font-size:12vw;
+    width:calc(var(--mw) * 26 / 100); height:calc(var(--mw) * 26 / 100); max-width:150px; max-height:150px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:calc(var(--mw) * 12 / 100);
     box-shadow: 0 8px 0 var(--sombra), 0 12px 26px rgba(43,35,64,0.2);
     margin-bottom: 2vh; animation: flutua 3s ease-in-out infinite;
   }
@@ -223,7 +225,7 @@
 
   /* teclado (usado na criação do nome e na Fase 5) */
   .campo-nome{
-    font-family:'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', sans-serif; font-size: 6vw;
+    font-family:'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', sans-serif; font-size: calc(var(--mw) * 6 / 100);
     letter-spacing:6px; min-height: 50px;
     color: var(--magia); font-weight:800;
     border-bottom: 5px dashed var(--coral);
@@ -241,14 +243,14 @@
   }
   .fileira-teclado{
     display:flex;
-    gap: 1vw;
+    gap: calc(var(--mw) * 1 / 100);
     justify-content:center;
     width:100%;
   }
   .tecla{
     background: var(--sol);
     color: var(--tinta);
-    font-size: 2.6vw;
+    font-size: calc(var(--mw) * 2.6 / 100);
     font-weight:800;
     border-radius: 8px;
     flex: 1 1 0;
@@ -258,12 +260,12 @@
     box-shadow: 0 4px 0 #E0B426;
   }
   .tecla:active{ transform: translateY(3px); box-shadow:none; }
-  .tecla-especial{ background: var(--coral); color:var(--branco); box-shadow: 0 4px 0 var(--coral-escuro); flex: 1.6 1 0; max-width:86px; font-size: 2vw; }
+  .tecla-especial{ background: var(--coral); color:var(--branco); box-shadow: 0 4px 0 var(--coral-escuro); flex: 1.6 1 0; max-width:86px; font-size: calc(var(--mw) * 2 / 100); }
   .tecla.dica{ animation: pisca 0.9s ease-in-out infinite; background:#FFF3C4; }
 
   /* vila e casinhas (Fase 1) */
   .vila{
-    display:flex; gap: 2vw; justify-content:center; align-items:flex-end;
+    display:flex; gap: calc(var(--mw) * 2 / 100); justify-content:center; align-items:flex-end;
     margin: 1.5vh 0 2.5vh 0; flex-wrap:wrap;
   }
   .casinha{ width: var(--casinha-w); display:flex; flex-direction:column; align-items:center; }
@@ -283,13 +285,13 @@
 
   /* opções (letras, sílabas, imagens, palavras) */
   .opcoes{
-    display:flex; gap: 2.5vw; justify-content:center; flex-wrap:wrap;
+    display:flex; gap: calc(var(--mw) * 2.5 / 100); justify-content:center; flex-wrap:wrap;
     margin: 1.5vh 0; width:100%;
   }
   .bolha-opcao{
     min-width: var(--bolha-w); height:var(--bolha-w); border-radius:50%;
     background: var(--branco); padding: 0 6px;
-    font-family:'Nunito', -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:900; font-size:4vw;
+    font-family:'Nunito', -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight:900; font-size:calc(var(--mw) * 4 / 100);
     color: var(--tinta);
     box-shadow: 0 5px 0 var(--sombra);
     display:flex; align-items:center; justify-content:center;
@@ -307,8 +309,8 @@
   /* pecinhas retangulares (sílabas / palavras da frase) */
   .peca{
     background: var(--branco); font-weight:900; font-family:'Nunito', -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-size: 3.2vw;
-    padding: 1.6vh 2.5vw;
+    font-size: calc(var(--mw) * 3.2 / 100);
+    padding: 1.6vh calc(var(--mw) * 2.5 / 100);
     border-radius: 14px;
     box-shadow: 0 5px 0 var(--sombra);
     transition: transform 0.15s;
@@ -317,7 +319,7 @@
   .peca.usada{ visibility:hidden; }
   .peca.errada-anim{ animation: bamboleia 0.4s ease; }
 
-  .slots{ display:flex; gap: 2vw; justify-content:center; flex-wrap:wrap; margin: 1.5vh 0; min-height: 44px; }
+  .slots{ display:flex; gap: calc(var(--mw) * 2 / 100); justify-content:center; flex-wrap:wrap; margin: 1.5vh 0; min-height: 44px; }
   .slot{
     min-width: 46px; height:46px; border-radius:10px;
     background: rgba(255,255,255,0.5);
@@ -332,9 +334,9 @@
   .bolinha{ width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.5); }
   .bolinha.feita{ background: var(--sol); }
 
-  .mapa{ display:flex; gap:2vw; flex-wrap:wrap; justify-content:center; margin:1.5vh 0; }
+  .mapa{ display:flex; gap:calc(var(--mw) * 2 / 100); flex-wrap:wrap; justify-content:center; margin:1.5vh 0; }
   .marco{
-    width:20vw; padding: 1.4vh 4px; border-radius:16px; background:var(--branco);
+    width:calc(var(--mw) * 20 / 100); padding: 1.4vh 4px; border-radius:16px; background:var(--branco);
     display:flex; flex-direction:column; align-items:center; gap:4px;
     box-shadow: 0 5px 0 var(--sombra);
   }
@@ -343,13 +345,13 @@
   .marco.bloqueado{ opacity:0.5; }
   .marco.marco-atual{ box-shadow: 0 5px 0 var(--sombra), 0 0 0 4px var(--sol); animation: pisca-marco 1.2s ease-in-out infinite; }
   @keyframes pisca-marco{ 0%,100%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 4px var(--sol);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 8px rgba(255,212,71,0.5);} }
-  .marco-emoji{ font-size:5vw; }
-  .marco-nome{ font-size:2vw; font-weight:800; text-align:center; padding:0 4px;}
-  .cadeado{ font-size:1.8vw; font-weight:700; }
+  .marco-emoji{ font-size:calc(var(--mw) * 5 / 100); }
+  .marco-nome{ font-size:calc(var(--mw) * 2 / 100); font-weight:800; text-align:center; padding:0 4px;}
+  .cadeado{ font-size:calc(var(--mw) * 1.8 / 100); font-weight:700; }
 
   @media (max-height: 640px){
     .npc-avatar{ display:none; }
-    .painel{ padding: 1.4vh 3vw; }
+    .painel{ padding: 1.4vh calc(var(--mw) * 3 / 100); }
   }
   @media (max-width: 360px){
     .titulo-jogo{ font-size:1.8rem; }
@@ -375,12 +377,23 @@
    ========================================================= */
 
 const app = document.getElementById('app');
+
+// Mantém --mw (largura real da moldura do jogo) sincronizada, para que todas as
+// medidas em "vw" do CSS sejam relativas à moldura (max. 640px), e não à janela
+// inteira do navegador — isso é o que evita elementos gigantes no computador.
+function atualizarLarguraMoldura(){
+  const m = document.getElementById('moldura');
+  if(m) document.documentElement.style.setProperty('--mw', m.getBoundingClientRect().width + 'px');
+}
+atualizarLarguraMoldura();
+window.addEventListener('resize', atualizarLarguraMoldura);
+window.addEventListener('orientationchange', atualizarLarguraMoldura);
 const CHAVE_SALVAMENTO = 'reinoDasLetras_progresso_v1';
 
 // rede de segurança: se algo inesperado quebrar, mostra uma mensagem em vez de tela em branco
 window.onerror = function(mensagem){
   if(app && !app.querySelector('.scene')){
-    app.innerHTML = '<div style="padding:6vh 6vw; color:white; font-family:sans-serif; text-align:center;">'
+    app.innerHTML = '<div style="padding:6vh calc(var(--mw) * 6 / 100); color:white; font-family:sans-serif; text-align:center;">'
       + '<div style="font-size:2.5rem;">😕</div>'
       + '<p style="font-weight:700;">Ops, o jogo encontrou um probleminha técnico ao abrir.</p>'
       + '<p style="font-size:0.85rem; opacity:0.85;">Detalhe técnico: ' + mensagem + '</p>'
@@ -493,7 +506,7 @@ function alternarVoz(){
 }
 function botaoAudio(textoParaRepetir){
   return `<button class="btn-audio" onclick="alternarAudio()" title="Ligar/desligar o som">${estado.audioLigado ? '🔊':'🔈'}</button>
-  <button class="btn-audio" style="left:auto; right:3vw; background:var(--coral);" onclick="alternarVoz()" title="Trocar a voz">🎙️</button>
+  <button class="btn-audio" style="left:auto; right:calc(var(--mw) * 3 / 100); background:var(--coral);" onclick="alternarVoz()" title="Trocar a voz">🎙️</button>
   <button class="btn-home" onclick="if(confirm('Voltar para a tela inicial? Seu progresso fica salvo.')) cenaTitulo();" title="Voltar para a home">🏠</button>`;
 }
 
@@ -649,7 +662,7 @@ function cenaTitulo(){
   const temHeroi = salvo && salvo.nome;
   mostrarCena(`
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%; text-align:center;">
-      <div style="font-size:10vw;">📖✨</div>
+      <div style="font-size:calc(var(--mw) * 10 / 100);">📖✨</div>
       <h1 class="titulo-jogo">O Reino das<br>Letras Perdidas</h1>
       ${temHeroi
         ? `<button class="btn-grande" onclick="continuarProgressoSalvo()">Continuar, ${salvo.nome}!</button>
@@ -719,7 +732,7 @@ function cenaTituloDeFase(indiceFase){
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%; text-align:center;">
       <div class="capa-jogo-avatar" style="background:${info.cor};">${icone(info.emoji)}</div>
       <p class="capa-jogo-rotulo">JOGO ${info.numero}</p>
-      <h1 class="titulo-jogo" style="color:var(--tinta); text-shadow:none; font-size:7vw;">${info.nome}</h1>
+      <h1 class="titulo-jogo" style="color:var(--tinta); text-shadow:none; font-size:calc(var(--mw) * 7 / 100);">${info.nome}</h1>
       <button class="btn-grande" onclick="${info.chegada}()">▶ Jogar</button>
     </div>
   `, ()=> falar(`Jogo ${info.numero}: ${info.nome}!`));
@@ -813,7 +826,7 @@ function cenaFimFase1(){
   mostrarCena(`
     ${botaoAudio(texto)}
     <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:8vw;">🎉👑</div>
+      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👑</div>
       <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${texto}</p></div>
       ${mapaHTML(1)}
       <button class="btn-grande" onclick="cenaCarregando(1)">Continuar para a Floresta</button>
@@ -845,7 +858,7 @@ function cenaDesafioSilaba(){
     ${botaoAudio(`Essa figura é ${item.emoji}. Toque as sílabas na ordem certa para formar a palavra ${item.palavra}!`)}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--grama);">🦉</div>
-      <div style="font-size:8vw;">${icone(item.emoji)}</div>
+      <div style="font-size:calc(var(--mw) * 8 / 100);">${icone(item.emoji)}</div>
       <div class="slots" id="slotsSilaba">${item.partes.map(()=>`<div class="slot">_</div>`).join('')}</div>
       <div class="opcoes" id="bancoSilabas">
         ${banco.map((s,i)=>`<button class="peca ${forcarOrdem && s===item.partes[0] ? 'dica':''}" onclick="tentarSilaba('${s}', this)">${s}</button>`).join('')}
@@ -913,7 +926,7 @@ function cenaFimFase2(){
   mostrarCena(`
     ${botaoAudio(texto)}
     <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:8vw;">🎉🧥</div>
+      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉🧥</div>
       <div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${texto}</p></div>
       ${mapaHTML(2)}
       <button class="btn-grande" onclick="cenaCarregando(2)">Continuar para a Ponte</button>
@@ -943,7 +956,7 @@ function cenaDesafioPalavra(){
     ${botaoAudio(`Toque na palavra para ouvir: ${item.palavra}. Depois toque na figura certa!`)}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">🧔</div>
-      <button class="peca" style="font-size:5vw; margin-bottom:1.5vh;" onclick="falar('${item.palavra}')">${item.palavra}</button>
+      <button class="peca" style="font-size:calc(var(--mw) * 5 / 100); margin-bottom:1.5vh;" onclick="falar('${item.palavra}')">${item.palavra}</button>
       <div class="opcoes">${opcoes.map(e=>`<button class="bolha-opcao" onclick="tentarPalavra('${e}','${item.emoji}', this)">${icone(e)}</button>`).join('')}</div>
       <div class="progresso">${PALAVRAS.map((_,i)=>`<div class="bolinha ${i<estado.palavraIndex?'feita':''}"></div>`).join('')}</div>
     </div>
@@ -990,7 +1003,7 @@ function cenaFimFase3(){
   mostrarCena(`
     ${botaoAudio(texto)}
     <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:8vw;">🎉👢</div>
+      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👢</div>
       <div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${texto}</p></div>
       ${mapaHTML(3)}
       <button class="btn-grande" onclick="cenaCarregando(3)">Continuar para o Castelo</button>
@@ -1021,7 +1034,7 @@ function cenaDesafioFrase(){
     ${botaoAudio(`Olha essa figura! Toque as palavras na ordem certa para montar a frase.`)}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--magia); color:white;">👩‍👑</div>
-      <div style="font-size:7vw;">${icone(item.emoji)}</div>
+      <div style="font-size:calc(var(--mw) * 7 / 100);">${icone(item.emoji)}</div>
       <div class="slots" id="slotsFrase">${item.tokens.map(()=>`<div class="slot">_</div>`).join('')}</div>
       <div class="opcoes" id="bancoFrase">${banco.map(t=>`<button class="peca" onclick="tentarFrase('${t}', this)">${t}</button>`).join('')}</div>
       <div class="progresso">${FRASES.map((_,i)=>`<div class="bolinha ${i<estado.fraseIndex?'feita':''}"></div>`).join('')}</div>
@@ -1087,7 +1100,7 @@ function cenaFimFase4(){
   mostrarCena(`
     ${botaoAudio(texto)}
     <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:8vw;">🎉👑</div>
+      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👑</div>
       <div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${texto}</p></div>
       ${mapaHTML(4)}
       <button class="btn-grande" onclick="cenaCarregando(4)">Encontrar o Confusor</button>
@@ -1116,7 +1129,7 @@ function cenaDesafioConfusor(){
   mostrarCena(`
     ${botaoAudio(`Toque nas letrinhas para escrever a palavra que falta: ${item.frase}... ${item.palavra}`)}
     <div class="painel">
-      <div style="font-size:7vw;">${icone(item.emoji)}</div>
+      <div style="font-size:calc(var(--mw) * 7 / 100);">${icone(item.emoji)}</div>
       <p class="subtitulo">"${item.frase} ___"</p>
       <div class="campo-nome" id="campoConfusor">${'_ '.repeat(item.palavra.length)}</div>
       <div class="teclado" id="tecladoConfusor"></div>
@@ -1160,7 +1173,7 @@ function cenaFimDeJogo(){
   mostrarCena(`
     ${botaoAudio(texto)}
     <div class="painel" style="margin-top:4vh;">
-      <div style="font-size:9vw;">🎉📖✨</div>
+      <div style="font-size:calc(var(--mw) * 9 / 100);">🎉📖✨</div>
       <h2 class="titulo">Você é a Guardiã Maior das Letras!</h2>
       <div class="balao-fala"><span class="balao-nome">Confusor:</span><p class="balao-texto">${texto}</p></div>
       <div style="font-size:2rem; margin:1vh 0;">👴🦉🧔👩‍👑🌀</div>
