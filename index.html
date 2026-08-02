@@ -38,18 +38,31 @@
     min-height:100vh;
     min-height:100dvh;
     font-family:'Nunito', sans-serif;
-    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu) 60%, var(--grama) 60%, var(--grama-escura) 100%);
-    background-attachment: fixed;
+    background: #DCE7EE;
     color: var(--tinta);
     width:100%;
     position:relative;
     user-select:none;
     overflow-x:hidden;
   }
+  #moldura{
+    max-width: 640px;
+    margin: 0 auto;
+    min-height:100vh;
+    min-height:100dvh;
+    position:relative;
+    overflow:hidden;
+    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu) 60%, var(--grama) 60%, var(--grama-escura) 100%);
+    box-shadow: 0 0 40px rgba(0,0,0,0.25);
+  }
+  @media (min-width: 641px){
+    body{ display:flex; justify-content:center; }
+    #moldura{ margin: 2vh auto; min-height: 96vh; border-radius: 20px; }
+  }
   h1,h2,h3, .titulo{ font-family:'Baloo 2', sans-serif; }
   h2.titulo{ font-size: 6vw; font-weight:800; margin: 1.2vh 0; line-height:1.2; }
 
-  #app{ position:relative; z-index:1; width:100%; min-height:100vh; min-height:100dvh; }
+  #app{ position:relative; z-index:1; width:100%; min-height:100%; }
 
   .scene{
     position:absolute; top:0; right:0; bottom:0; left:0;
@@ -73,7 +86,7 @@
     box-shadow: 0 0 24px 8px rgba(255,212,71,0.5);
     pointer-events:none;
   }
-  .nuvem{ position:fixed; background:rgba(255,255,255,0.85); border-radius:50%; pointer-events:none; z-index:0; }
+  .nuvem{ position:absolute; background:rgba(255,255,255,0.85); border-radius:50%; pointer-events:none; z-index:0; }
   .nuvem::before, .nuvem::after{ content:""; position:absolute; background:inherit; border-radius:50%; }
   .nuvem1{ top:6vh; left:8vw; width:14vw; height:5vh; }
   .nuvem1::before{ width:8vw; height:8vw; top:-4vw; left:1vw; }
@@ -82,7 +95,7 @@
   .nuvem2::before{ width:6vw; height:6vw; top:-3vw; left:1vw; }
   .nuvem2::after{ width:5vw; height:5vw; top:-2.5vw; left:5vw; }
   .argola{
-    position:fixed; border-radius:50%; border: 1vw solid var(--sol);
+    position:absolute; border-radius:50%; border: 1vw solid var(--sol);
     background:transparent; pointer-events:none; z-index:0;
     box-shadow: 0 0 10px rgba(255,212,71,0.6);
     animation: flutua 4s ease-in-out infinite;
@@ -90,7 +103,7 @@
   .argola1{ top:38vh; left:6vw; width:6vw; height:6vw; }
   .argola2{ top:22vh; right:22vw; width:5vw; height:5vw; animation-delay:1.5s; }
   .colinas{
-    position:fixed; left:0; right:0; top:60%; height:8vh; z-index:0;
+    position:absolute; left:0; right:0; top:60%; height:8vh; z-index:0;
     pointer-events:none; opacity:0.55;
     background-image:
       radial-gradient(circle at 8% 0%, var(--grama-escura) 0%, var(--grama-escura) 7vh, transparent 7vh),
@@ -185,7 +198,7 @@
     text-decoration:underline; padding:6px;
   }
   .btn-home{
-    position:fixed; bottom:1.5vh; left:2vw;
+    position:absolute; bottom:1.5vh; left:2vw;
     background: var(--magia); color:var(--branco);
     width:44px; height:44px; border-radius:50%;
     font-size:1.3rem;
@@ -346,13 +359,15 @@
 </style>
 </head>
 <body>
-<div class="sol"></div>
-<div class="nuvem nuvem1"></div>
-<div class="nuvem nuvem2"></div>
-<div class="argola argola1"></div>
-<div class="argola argola2"></div>
-<div class="colinas"></div>
-<div id="app"></div>
+<div id="moldura">
+  <div class="sol"></div>
+  <div class="nuvem nuvem1"></div>
+  <div class="nuvem nuvem2"></div>
+  <div class="argola argola1"></div>
+  <div class="argola argola2"></div>
+  <div class="colinas"></div>
+  <div id="app"></div>
+</div>
 
 <script>
 /* =========================================================
