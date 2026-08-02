@@ -352,7 +352,7 @@
     color:var(--branco); text-align:center; padding: 8px calc(var(--mw) * 5 / 100);
     border-radius:999px; margin-top:2vh; box-shadow:0 4px 0 var(--sombra);
   }
-  .linha-no{ display:flex; align-items:center; width:100%; margin:6px 0; position:relative; }
+  .linha-no{ display:flex; align-items:center; width:100%; margin:14px 0; position:relative; }
   .linha-no.pos-esq{ justify-content:flex-start; }
   .linha-no.pos-centro{ justify-content:center; }
   .linha-no.pos-dir{ justify-content:flex-end; }
@@ -361,9 +361,10 @@
     max-width:74px; max-height:74px; min-width:50px; min-height:50px;
     border-radius:50%; background:var(--branco);
     display:flex; align-items:center; justify-content:center;
-    font-size:calc(var(--mw) * 6.5 / 100); font-weight:900;
+    font-size:calc(var(--mw) * 5.5 / 100); font-weight:900;
     box-shadow: 0 5px 0 var(--sombra); position:relative; flex-shrink:0;
     border:4px solid transparent;
+    overflow:hidden;
   }
   .no-nivel:not(.bloqueado){ cursor:pointer; }
   .no-nivel:not(.bloqueado):active{ transform:translateY(4px); box-shadow:none; }
