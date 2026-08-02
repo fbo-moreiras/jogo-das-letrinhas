@@ -352,7 +352,7 @@
     color:var(--branco); text-align:center; padding: 8px calc(var(--mw) * 5 / 100);
     border-radius:999px; margin-top:2vh; box-shadow:0 4px 0 var(--sombra);
   }
-  .linha-no{ display:flex; align-items:center; width:100%; margin:14px 0; position:relative; }
+  .linha-no{ display:flex; align-items:center; width:100%; margin:28px 0; position:relative; }
   .linha-no.pos-esq{ justify-content:flex-start; }
   .linha-no.pos-centro{ justify-content:center; }
   .linha-no.pos-dir{ justify-content:flex-end; }
@@ -377,6 +377,8 @@
     display:flex; align-items:center; justify-content:center; box-shadow:0 2px 0 #7748AD;
   }
   @keyframes pisca-marco{ 0%,100%{ box-shadow:0 5px 0 var(--sombra);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 10px rgba(255,139,107,0.5);} }
+  .seta-atual{ font-size:1.6rem; margin:0 4px; animation:aponta 0.8s ease-in-out infinite; }
+  @keyframes aponta{ 0%,100%{ transform:translateX(0);} 50%{ transform:translateX(6px);} }
   .marco-emoji{ font-size:calc(var(--mw) * 5 / 100); }
   .marco-nome{ font-size:calc(var(--mw) * 2 / 100); font-weight:800; text-align:center; padding:0 4px;}
   .cadeado{ font-size:calc(var(--mw) * 1.8 / 100); font-weight:700; }
@@ -530,10 +532,11 @@ function alternarVoz(){
   estado.vozIndex = (estado.vozIndex + 1) % vozes.length;
   falar(window._ultimaFala || ('Testando esta voz.'));
 }
-function botaoAudio(textoParaRepetir){
+function botaoAudio(textoParaRepetir, destinoHome){
+  const destino = destinoHome || 'cenaMapa()';
   return `<button class="btn-audio" onclick="alternarAudio()" title="Ligar/desligar o som">${estado.audioLigado ? '🔊':'🔈'}</button>
   <button class="btn-audio" style="left:auto; right:calc(var(--mw) * 3 / 100); background:var(--coral);" onclick="alternarVoz()" title="Trocar a voz">🎙️</button>
-  <button class="btn-home" onclick="if(confirm('Voltar para a tela inicial? Seu progresso fica salvo.')) cenaTitulo();" title="Voltar para a home">🏠</button>`;
+  <button class="btn-home" onclick="${destino}" title="Voltar">🏠</button>`;
 }
 
 // ---------- utilidades ----------
@@ -831,20 +834,20 @@ function cenaFimNivel(){
       <div class="painel" style="margin-top:5vh;">
         <div style="font-size:calc(var(--mw) * 8 / 100);">🎉${mundo.recompensa}</div>
         <div class="balao-fala"><span class="balao-nome">${mundo.npcFim}:</span><p class="balao-texto">${texto}</p></div>
-        <button class="btn-grande" onclick="cenaMapa()">🗺️ Voltar ao mapa</button>
+        <p class="subtitulo" style="opacity:0.6; font-size:0.8rem;">Voltando ao mapa...</p>
       </div>
     `, ()=> falar(texto));
+    setTimeout(()=>cenaMapa(), 3600);
   } else {
-    const texto = 'Muito bem! Vamos para o próximo desafio?';
+    const texto = 'Muito bem! Vamos para o próximo desafio!';
     mostrarCena(`
       ${botaoAudio(texto)}
       <div class="painel" style="margin-top:6vh;">
         <div style="font-size:calc(var(--mw) * 7 / 100);">🎉</div>
         <p class="subtitulo">${texto}</p>
-        <button class="btn-grande" onclick="cenaCarregandoNivel(${indiceConcluido+1})">▶ Próxima fase</button>
-        <button class="btn-grande btn-secundario" style="font-size:0.8rem; padding:8px 18px;" onclick="cenaMapa()">🗺️ Voltar ao mapa</button>
       </div>
     `, ()=> falar(texto));
+    setTimeout(()=>cenaMapa(), 1600);
   }
 }
 
@@ -1178,12 +1181,13 @@ function cenaMapa(){
       if(bloqueado) classes.push('bloqueado');
       const onclick = !bloqueado ? ` onclick="irParaNivel(${n.indice})"` : '';
       const conteudo = feito ? '✅' : bloqueado ? '🔒' : icone(n.emoji || mundo.emoji);
-      return `<div class="linha-no ${posClasse}"><div class="${classes.join(' ')}"${onclick}>${conteudo}<div class="no-numero">${n.indice+1}</div></div></div>`;
+      return `<div class="linha-no ${posClasse}">${atual ? '<div class="seta-atual">👉</div>' : ''}<div class="${classes.join(' ')}"${onclick}>${conteudo}<div class="no-numero">${n.indice+1}</div></div></div>`;
     }).join('');
     return `<div class="mundo-secao">${nos}<div class="mundo-rotulo" style="background:${mundo.cor};">${icone(mundo.emoji)} ${mundo.nome}</div></div>`;
   }).join('');
 
   mostrarCena(`
+    ${botaoAudio('Mapa da aventura', 'cenaTitulo()')}
     <div class="mapa-cabecalho">
       <h2 class="titulo" style="margin:0; font-size:calc(var(--mw) * 5 / 100);">🗺️ Mapa da Aventura</h2>
     </div>
