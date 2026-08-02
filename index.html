@@ -11,7 +11,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Reino das Letras">
-
 <style>
   :root{
     --mw: 640px;
@@ -334,17 +333,49 @@
   .bolinha{ width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.5); }
   .bolinha.feita{ background: var(--sol); }
 
-  .mapa{ display:flex; gap:calc(var(--mw) * 2 / 100); flex-wrap:wrap; justify-content:center; margin:1.5vh 0; }
-  .marco{
-    width:calc(var(--mw) * 20 / 100); padding: 1.4vh 4px; border-radius:16px; background:var(--branco);
-    display:flex; flex-direction:column; align-items:center; gap:4px;
-    box-shadow: 0 5px 0 var(--sombra);
+  /* mapa em formato de caminho (trilha subindo pela tela) */
+  .tela-mapa{ padding:0 !important; align-items:stretch !important; }
+  .mapa-cabecalho{
+    position:sticky; top:0; z-index:6; background:rgba(255,253,248,0.95);
+    padding: 2vh calc(var(--mw) * 4 / 100) 1.5vh calc(var(--mw) * 4 / 100);
+    text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.08);
   }
-  .marco:not(.bloqueado){ cursor:pointer; }
-  .marco:not(.bloqueado):active{ transform: translateY(4px); box-shadow:none; }
-  .marco.bloqueado{ opacity:0.5; }
-  .marco.marco-atual{ box-shadow: 0 5px 0 var(--sombra), 0 0 0 4px var(--sol); animation: pisca-marco 1.2s ease-in-out infinite; }
-  @keyframes pisca-marco{ 0%,100%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 4px var(--sol);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 8px rgba(255,212,71,0.5);} }
+  .caminho{
+    display:flex; flex-direction:column-reverse;
+    padding: 3vh calc(var(--mw) * 4 / 100) 2vh calc(var(--mw) * 4 / 100);
+    position:relative;
+  }
+  .mundo-secao{ display:flex; flex-direction:column-reverse; align-items:center; padding-top:2vh; }
+  .mundo-rotulo{
+    font-family:'Baloo 2', 'Comic Sans MS', 'Trebuchet MS', sans-serif; font-weight:800;
+    font-size: calc(var(--mw) * 4.4 / 100);
+    color:var(--branco); text-align:center; padding: 8px calc(var(--mw) * 5 / 100);
+    border-radius:999px; margin-top:2vh; box-shadow:0 4px 0 var(--sombra);
+  }
+  .linha-no{ display:flex; align-items:center; width:100%; margin:6px 0; position:relative; }
+  .linha-no.pos-esq{ justify-content:flex-start; }
+  .linha-no.pos-centro{ justify-content:center; }
+  .linha-no.pos-dir{ justify-content:flex-end; }
+  .no-nivel{
+    width:calc(var(--mw) * 15 / 100); height:calc(var(--mw) * 15 / 100);
+    max-width:74px; max-height:74px; min-width:50px; min-height:50px;
+    border-radius:50%; background:var(--branco);
+    display:flex; align-items:center; justify-content:center;
+    font-size:calc(var(--mw) * 6.5 / 100); font-weight:900;
+    box-shadow: 0 5px 0 var(--sombra); position:relative; flex-shrink:0;
+    border:4px solid transparent;
+  }
+  .no-nivel:not(.bloqueado){ cursor:pointer; }
+  .no-nivel:not(.bloqueado):active{ transform:translateY(4px); box-shadow:none; }
+  .no-nivel.feito{ background:var(--sol); border-color:#E0B426; }
+  .no-nivel.bloqueado{ opacity:0.45; }
+  .no-nivel.atual{ animation:pisca-marco 1.2s ease-in-out infinite; border-color:var(--coral); }
+  .no-numero{
+    position:absolute; bottom:-8px; right:-4px; background:var(--magia); color:white;
+    font-size:0.65rem; font-weight:800; border-radius:50%; width:20px; height:20px;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 2px 0 #7748AD;
+  }
+  @keyframes pisca-marco{ 0%,100%{ box-shadow:0 5px 0 var(--sombra);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 10px rgba(255,139,107,0.5);} }
   .marco-emoji{ font-size:calc(var(--mw) * 5 / 100); }
   .marco-nome{ font-size:calc(var(--mw) * 2 / 100); font-weight:800; text-align:center; padding:0 4px;}
   .cadeado{ font-size:calc(var(--mw) * 1.8 / 100); font-weight:700; }
@@ -423,8 +454,7 @@ function tentarInstalar(){
 
 const estado = {
   nome: '',
-  faseAtual: 1,     // 1 a 5, e 6 = jogo concluído
-  vogalIndex: 0, silabaIndex: 0, palavraIndex: 0, fraseIndex: 0, confusorIndex: 0,
+  nivelAtual: 0,   // 0 a 24 = qual dos 25 níveis está em jogo; 25 = tudo concluído
   erros: 0,
   audioLigado: true,
   vozIndex: 0
@@ -433,12 +463,7 @@ const estado = {
 // ---------- salvar / carregar progresso ----------
 function salvarProgresso(){
   try{
-    const dados = {
-      nome: estado.nome, faseAtual: estado.faseAtual,
-      vogalIndex: estado.vogalIndex, silabaIndex: estado.silabaIndex,
-      palavraIndex: estado.palavraIndex, fraseIndex: estado.fraseIndex,
-      confusorIndex: estado.confusorIndex
-    };
+    const dados = { nome: estado.nome, nivelAtual: estado.nivelAtual };
     localStorage.setItem(CHAVE_SALVAMENTO, JSON.stringify(dados));
   }catch(e){ /* localStorage pode estar bloqueado — o jogo segue funcionando, só sem salvar */ }
 }
@@ -701,44 +726,77 @@ function atualizaCampoNome(){
 }
 function confirmarNome(){
   falar(`${estado.nome}, a partir de hoje, você é a Guardiã das Letras!`);
+  estado.nivelAtual = 0;
   salvarProgresso();
-  cenaCarregando(0);
+  cenaCarregandoNivel(0);
 }
 
 /* =========================================================
-   TRANSIÇÕES ENTRE FASES — dá a impressão de abrir um jogo novo
-   a cada fase (tela de carregamento + capa própria com "Jogar")
+   NÍVEIS — agora cada exercício (cada vogal, sílaba, palavra,
+   frase e palavra do Confusor) é a sua própria "fase" no mapa.
    ========================================================= */
-const FASES_INFO = [
-  {numero:1, nome:'Vila das Vogais',        emoji:'🏘️', cor:'var(--sol)',        chegada:'cenaChegadaVila'},
-  {numero:2, nome:'Floresta das Sílabas',   emoji:'🌳', cor:'var(--grama)',      chegada:'cenaChegadaFloresta'},
-  {numero:3, nome:'Ponte das Palavras',     emoji:'🌉', cor:'var(--ceu-escuro)', chegada:'cenaChegadaPonte'},
-  {numero:4, nome:'Castelo das Frases',     emoji:'🏰', cor:'var(--magia)',      chegada:'cenaChegadaCastelo'},
-  {numero:5, nome:'O Confusor',             emoji:'🌀', cor:'var(--coral)',      chegada:'cenaChegadaConfusor'},
+const MUNDOS_INFO = [
+  { numero:1, nome:'Vila das Vogais', emoji:'🏘️', cor:'var(--sol)',
+    fim:(n)=>`${n}, você conseguiu! Todas as vogais estão de volta! Você ganhou o Chapéu de Guardião das Vogais!`,
+    npcFim:'Seu Vogalino', recompensa:'👑' },
+  { numero:2, nome:'Floresta das Sílabas', emoji:'🌳', cor:'var(--grama)',
+    fim:(n)=>`${n}, você é incrível! Agora toda a floresta sabe juntar suas sílabas de novo! Você ganhou a Capa da Coruja Silabela!`,
+    npcFim:'Coruja Silabela', recompensa:'🧥' },
+  { numero:3, nome:'Ponte das Palavras', emoji:'🌉', cor:'var(--ceu-escuro)',
+    fim:(n)=>`${n}, muito obrigado! Agora eu consigo ler os portões de novo! Você ganhou a Bota Mágica de Atravessar Pontes!`,
+    npcFim:'Seu Pontinho', recompensa:'👢' },
+  { numero:4, nome:'Castelo das Frases', emoji:'🏰', cor:'var(--magia)',
+    fim:(n)=>`${n}, você organizou todos os livros reais! Você ganhou a Coroa de Leitor Real!`,
+    npcFim:'Dona Frasela', recompensa:'👑' },
+  { numero:5, nome:'O Confusor', emoji:'🌀', cor:'var(--coral)', fim:null, npcFim:null, recompensa:null },
 ];
-function cenaCarregando(indiceFase){
-  const info = FASES_INFO[indiceFase];
+const NIVEIS = [
+  ...VOGAIS.map(v => ({ mundo:1, tipo:'vogal', dados:v, rotulo:'Letra '+v.letra, emoji:v.emoji })),
+  ...SILABAS.map(s => ({ mundo:2, tipo:'silaba', dados:s, rotulo:s.palavra, emoji:s.emoji })),
+  ...PALAVRAS.map(p => ({ mundo:3, tipo:'palavra', dados:p, rotulo:p.palavra, emoji:p.emoji })),
+  ...FRASES.map((f,i) => ({ mundo:4, tipo:'frase', dados:f, rotulo:'Frase '+(i+1), emoji:f.emoji })),
+  ...CONFUSOR_PALAVRAS.map(c => ({ mundo:5, tipo:'confusor', dados:c, rotulo:'Escreva: '+c.palavra, emoji:c.emoji })),
+];
+function nivelAtualItem(){ return NIVEIS[estado.nivelAtual]; }
+function ehPrimeiroDoMundo(indice){ return indice===0 || NIVEIS[indice].mundo !== NIVEIS[indice-1].mundo; }
+function ehUltimoDoMundo(indice){ return indice===NIVEIS.length-1 || NIVEIS[indice].mundo !== NIVEIS[indice+1].mundo; }
+
+/* =========================================================
+   TRANSIÇÕES — carregando + capa do "jogo" antes de cada nível
+   ========================================================= */
+function cenaCarregandoNivel(indice){
   mostrarCena(`
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%;">
       <div class="spinner"></div>
-      <p class="subtitulo" style="margin-top:2.5vh;">Carregando Jogo ${info.numero}...</p>
+      <p class="subtitulo" style="margin-top:2.5vh;">Carregando Jogo ${indice+1}...</p>
     </div>
   `);
-  setTimeout(()=>cenaTituloDeFase(indiceFase), 1400);
+  setTimeout(()=>cenaTituloDeNivel(indice), 1100);
 }
-function cenaTituloDeFase(indiceFase){
-  const info = FASES_INFO[indiceFase];
+function cenaTituloDeNivel(indice){
+  const nivel = NIVEIS[indice];
+  const mundo = MUNDOS_INFO[nivel.mundo-1];
   mostrarCena(`
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%; text-align:center;">
-      <div class="capa-jogo-avatar" style="background:${info.cor};">${icone(info.emoji)}</div>
-      <p class="capa-jogo-rotulo">JOGO ${info.numero}</p>
-      <h1 class="titulo-jogo" style="color:var(--tinta); text-shadow:none; font-size:calc(var(--mw) * 7 / 100);">${info.nome}</h1>
-      <button class="btn-grande" onclick="${info.chegada}()">▶ Jogar</button>
+      <div class="capa-jogo-avatar" style="background:${mundo.cor};">${icone(nivel.emoji || mundo.emoji)}</div>
+      <p class="capa-jogo-rotulo">JOGO ${indice+1}</p>
+      <h1 class="titulo-jogo" style="color:var(--tinta); text-shadow:none; font-size:calc(var(--mw) * 7 / 100);">${nivel.rotulo}</h1>
+      <button class="btn-grande" onclick="iniciarNivel(${indice})">▶ Jogar</button>
+      <button class="btn-grande btn-secundario" style="font-size:0.8rem; padding:8px 18px;" onclick="cenaMapa()">🗺️ Ver mapa</button>
     </div>
-  `, ()=> falar(`Jogo ${info.numero}: ${info.nome}!`));
+  `, ()=> falar(`Jogo ${indice+1}: ${nivel.rotulo}!`));
 }
-// tela de carregamento simples usada ao retomar um progresso salvo (sem o cartão de "Jogar",
-// já que nesse caso a criança está voltando no meio de uma fase, não abrindo um jogo novo)
+function iniciarNivel(indice){
+  estado.nivelAtual = indice;
+  estado.erros = 0;
+  salvarProgresso();
+  const tipo = NIVEIS[indice].tipo;
+  if(tipo==='vogal') cenaDesafioVogal();
+  else if(tipo==='silaba') cenaDesafioSilaba();
+  else if(tipo==='palavra') cenaDesafioPalavra();
+  else if(tipo==='frase') cenaDesafioFrase();
+  else if(tipo==='confusor') cenaDesafioConfusor();
+}
 function cenaCarregandoRetomada(aoTerminar){
   mostrarCena(`
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%;">
@@ -750,54 +808,78 @@ function cenaCarregandoRetomada(aoTerminar){
 }
 
 /* =========================================================
-   FASE 1 — VILA DAS VOGAIS
+   FIM DE NÍVEL — genérico para qualquer tipo de exercício
    ========================================================= */
-function cenaChegadaVila(){
-  const texto = `Ufa, que bom que você chegou, ${estado.nome}! Todas as portas da vila perderam suas letrinhas! Você vai precisar encontrar as cinco vogais: A, E, I, O, U!`;
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:7vh;">
-      <div class="npc-avatar" style="background:var(--sol);">👴</div>
-      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${texto}</p></div>
-      <button class="btn-grande" onclick="estado.vogalIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioVogal();">Vamos lá!</button>
-    </div>
-  `, ()=> falar(texto));
+function cenaFimNivel(){
+  const indiceConcluido = estado.nivelAtual;
+  const nivel = NIVEIS[indiceConcluido];
+  const ultimoDoMundo = ehUltimoDoMundo(indiceConcluido);
+  const ultimoNivelDoJogo = indiceConcluido === NIVEIS.length-1;
+
+  estado.nivelAtual++;
+  estado.erros = 0;
+  salvarProgresso();
+
+  if(ultimoNivelDoJogo){ cenaFimDeJogo(); return; }
+
+  if(ultimoDoMundo){
+    const mundo = MUNDOS_INFO[nivel.mundo-1];
+    const texto = mundo.fim(estado.nome);
+    mostrarCena(`
+      ${botaoAudio(texto)}
+      <div class="painel" style="margin-top:5vh;">
+        <div style="font-size:calc(var(--mw) * 8 / 100);">🎉${mundo.recompensa}</div>
+        <div class="balao-fala"><span class="balao-nome">${mundo.npcFim}:</span><p class="balao-texto">${texto}</p></div>
+        <button class="btn-grande" onclick="cenaMapa()">🗺️ Voltar ao mapa</button>
+      </div>
+    `, ()=> falar(texto));
+  } else {
+    const texto = 'Muito bem! Vamos para o próximo desafio?';
+    mostrarCena(`
+      ${botaoAudio(texto)}
+      <div class="painel" style="margin-top:6vh;">
+        <div style="font-size:calc(var(--mw) * 7 / 100);">🎉</div>
+        <p class="subtitulo">${texto}</p>
+        <button class="btn-grande" onclick="cenaCarregandoNivel(${indiceConcluido+1})">▶ Próxima fase</button>
+        <button class="btn-grande btn-secundario" style="font-size:0.8rem; padding:8px 18px;" onclick="cenaMapa()">🗺️ Voltar ao mapa</button>
+      </div>
+    `, ()=> falar(texto));
+  }
 }
+
+/* =========================================================
+   FASE (mundo 1) — VOGAIS
+   ========================================================= */
 function opcoesParaTentativa(valorCorreto, todosPossiveis, numOpcoes){
   const outras = todosPossiveis.filter(v=>v!==valorCorreto);
   return embaralha([valorCorreto, ...amostra(outras, Math.min(numOpcoes-1, outras.length))]);
 }
 function cenaDesafioVogal(){
-  const v = VOGAIS[estado.vogalIndex];
+  const v = nivelAtualItem().dados;
   const numOpcoes = estado.erros===0?4 : estado.erros===1?3 : estado.erros===2?2 : 1;
   const opcoes = opcoesParaTentativa(v.letra, VOGAIS.map(x=>x.letra), numOpcoes);
   const exemplo = exemploDaTentativa(v, estado.erros);
-  const casinhas = VOGAIS.map((vg,i)=>`<div class="casinha"><div class="telhado"></div><div class="parede ${i<estado.vogalIndex?'completa':''}">${i<estado.vogalIndex?vg.letra:'?'}</div></div>`).join('');
+  const introducao = ehPrimeiroDoMundo(estado.nivelAtual) ? `Ufa, que bom que você chegou, ${estado.nome}! Todas as portas da vila perderam suas letrinhas! ` : '';
   const textoInstrucao = `Escute com atenção: "${v.som}" de ${exemplo.palavra}! Toque na letrinha que faz esse som!`;
   mostrarCena(`
-    ${botaoAudio(textoInstrucao)}
-    <div class="vila">${casinhas}</div>
-    <div class="painel">
+    ${botaoAudio(introducao+textoInstrucao)}
+    <div class="painel" style="margin-top:4vh;">
       <div class="npc-avatar" style="background:var(--sol);">👴</div>
-      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${icone(exemplo.emoji)} ${textoInstrucao}</p></div>
+      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${introducao}${icone(exemplo.emoji)} ${textoInstrucao}</p></div>
       <div class="opcoes">${opcoes.map(l=>`<button class="bolha-opcao" onclick="tentarVogal('${l}','${v.letra}', this)">${l}</button>`).join('')}</div>
-      <div class="progresso">${VOGAIS.map((_,i)=>`<div class="bolinha ${i<estado.vogalIndex?'feita':''}"></div>`).join('')}</div>
     </div>
-  `, ()=> falar(textoInstrucao));
+  `, ()=> falar(introducao+textoInstrucao));
 }
 function tentarVogal(escolhida, correta, elemento){
   if(escolhida===correta){
     elemento.classList.add('certa-anim');
     falar(`Isso! Essa é a letra ${correta}!`);
-    setTimeout(()=>{
-      estado.erros=0; estado.vogalIndex++;
-      salvarProgresso();
-      if(estado.vogalIndex>=VOGAIS.length) cenaFimFase1(); else cenaDesafioVogal();
-    },700);
+    setTimeout(()=> cenaFimNivel(), 700);
   } else {
     elemento.classList.add('errada-anim');
     estado.erros++;
-    if(estado.erros<=3) setTimeout(()=>cenaDesvioVogal(VOGAIS[estado.vogalIndex]),500);
+    const v = nivelAtualItem().dados;
+    if(estado.erros<=3) setTimeout(()=>cenaDesvioVogal(v),500);
     else setTimeout(()=>cenaDesafioVogal(),500);
   }
 }
@@ -820,56 +902,33 @@ function tentarDesvioVogal(escolhida, correta, elemento){
     setTimeout(()=>cenaDesafioVogal(),900);
   } else elemento.classList.add('errada-anim');
 }
-function cenaFimFase1(){
-  const texto = `${estado.nome}, você conseguiu! A, E, I, O, U estão de volta! Você ganhou o Chapéu de Guardião das Vogais!`;
-  estado.faseAtual = 2; salvarProgresso();
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👑</div>
-      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${texto}</p></div>
-      ${mapaHTML(1)}
-      <button class="btn-grande" onclick="cenaCarregando(1)">Continuar para a Floresta</button>
-    </div>
-  `, ()=> falar(texto));
-}
 
 /* =========================================================
-   FASE 2 — FLORESTA DAS SÍLABAS
+   FASE (mundo 2) — SÍLABAS
    ========================================================= */
-function cenaChegadaFloresta(){
-  const texto = `Uhu, uhu! Que bom te ver, ${estado.nome}! Aqui na floresta as palavras se quebraram em sílabas! Junte as sílabas certinhas para formar as palavras de novo!`;
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:7vh;">
-      <div class="npc-avatar" style="background:var(--grama);">🦉</div>
-      <div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${texto}</p></div>
-      <button class="btn-grande" onclick="estado.silabaIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioSilaba();">Vamos lá!</button>
-    </div>
-  `, ()=> falar(texto));
-}
 function cenaDesafioSilaba(){
-  const item = SILABAS[estado.silabaIndex];
+  const item = nivelAtualItem().dados;
   const numDistratoras = estado.erros===0?2 : estado.erros===1?1 : 0;
   const outras = TODAS_SILABAS.filter(s=>!item.partes.includes(s));
   const banco = embaralha([...item.partes, ...amostra(outras,numDistratoras)]);
   const forcarOrdem = estado.erros>=3;
+  const introducao = ehPrimeiroDoMundo(estado.nivelAtual) ? `Uhu, uhu! Que bom te ver, ${estado.nome}! Aqui na floresta as palavras se quebraram em sílabas! ` : '';
   mostrarCena(`
-    ${botaoAudio(`Essa figura é ${item.emoji}. Toque as sílabas na ordem certa para formar a palavra ${item.palavra}!`)}
+    ${botaoAudio(introducao+`Essa figura é ${item.emoji}. Toque as sílabas na ordem certa para formar a palavra ${item.palavra}!`)}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--grama);">🦉</div>
+      ${introducao ? `<div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${introducao}</p></div>` : ''}
       <div style="font-size:calc(var(--mw) * 8 / 100);">${icone(item.emoji)}</div>
       <div class="slots" id="slotsSilaba">${item.partes.map(()=>`<div class="slot">_</div>`).join('')}</div>
       <div class="opcoes" id="bancoSilabas">
-        ${banco.map((s,i)=>`<button class="peca ${forcarOrdem && s===item.partes[0] ? 'dica':''}" onclick="tentarSilaba('${s}', this)">${s}</button>`).join('')}
+        ${banco.map((s)=>`<button class="peca ${forcarOrdem && s===item.partes[0] ? 'dica':''}" onclick="tentarSilaba('${s}', this)">${s}</button>`).join('')}
       </div>
-      <div class="progresso">${SILABAS.map((_,i)=>`<div class="bolinha ${i<estado.silabaIndex?'feita':''}"></div>`).join('')}</div>
     </div>
-  `, ()=> falar(`Essa figura é... toque as sílabas na ordem certa!`));
+  `, ()=> falar(introducao+'Toque as sílabas na ordem certa!'));
   window._montadoSilaba = [];
 }
 function tentarSilaba(silaba, elemento){
-  const item = SILABAS[estado.silabaIndex];
+  const item = nivelAtualItem().dados;
   const proximaEsperada = item.partes[window._montadoSilaba.length];
   if(silaba===proximaEsperada){
     elemento.classList.add('usada');
@@ -879,10 +938,7 @@ function tentarSilaba(silaba, elemento){
     slots[window._montadoSilaba.length-1].classList.add('preenchido');
     if(window._montadoSilaba.length === item.partes.length){
       falar(`Isso mesmo! ${item.partes.join('-')}... ${item.palavra}!`);
-      setTimeout(()=>{
-        estado.erros=0; estado.silabaIndex++; salvarProgresso();
-        if(estado.silabaIndex>=SILABAS.length) cenaFimFase2(); else cenaDesafioSilaba();
-      },800);
+      setTimeout(()=> cenaFimNivel(), 800);
     }
   } else {
     elemento.classList.add('errada-anim');
@@ -893,7 +949,6 @@ function tentarSilaba(silaba, elemento){
 }
 function cenaDesvioSilaba(buddy){
   const fala = buddy.falaNpc(estado.nome);
-  window._alvoDesvioSilaba = buddy.partes;
   mostrarCena(`
     ${botaoAudio(fala)}
     <div class="painel" style="margin-top:6vh;">
@@ -906,7 +961,8 @@ function cenaDesvioSilaba(buddy){
   window._montadoDesvio = [];
 }
 function tentarSilabaDesvio(silaba, elemento){
-  const partesAlvo = window._alvoDesvioSilaba;
+  const buddy = BUDDIES_FASE2[estado.erros-1] || BUDDIES_FASE2[0];
+  const partesAlvo = buddy.partes;
   const proxima = partesAlvo[window._montadoDesvio.length];
   if(silaba===proxima){
     elemento.classList.add('usada');
@@ -920,57 +976,31 @@ function tentarSilabaDesvio(silaba, elemento){
     }
   } else elemento.classList.add('errada-anim');
 }
-function cenaFimFase2(){
-  const texto = `${estado.nome}, você é incrível! Agora toda a floresta sabe juntar suas sílabas de novo! Você ganhou a Capa da Coruja Silabela!`;
-  estado.faseAtual=3; salvarProgresso();
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉🧥</div>
-      <div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${texto}</p></div>
-      ${mapaHTML(2)}
-      <button class="btn-grande" onclick="cenaCarregando(2)">Continuar para a Ponte</button>
-    </div>
-  `, ()=> falar(texto));
-}
 
 /* =========================================================
-   FASE 3 — PONTE DAS PALAVRAS CURTAS
+   FASE (mundo 3) — PALAVRAS
    ========================================================= */
-function cenaChegadaPonte(){
-  const texto = `Ah, olá, ${estado.nome}! Eu tomo conta desta ponte, mas venho me confundindo com as palavras nos portões... Você consegue ler e me ajudar?`;
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:7vh;">
-      <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">🧔</div>
-      <div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${texto}</p></div>
-      <button class="btn-grande" onclick="estado.palavraIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioPalavra();">Vamos lá!</button>
-    </div>
-  `, ()=> falar(texto));
-}
 function cenaDesafioPalavra(){
-  const item = PALAVRAS[estado.palavraIndex];
+  const item = nivelAtualItem().dados;
   const numOpcoes = estado.erros===0?3 : estado.erros===1?2 : 1;
   const opcoes = opcoesParaTentativa(item.emoji, [item.emoji, ...item.outros], numOpcoes);
+  const introducao = ehPrimeiroDoMundo(estado.nivelAtual) ? `Ah, olá, ${estado.nome}! Eu tomo conta desta ponte, mas venho me confundindo com as palavras nos portões... ` : '';
   mostrarCena(`
-    ${botaoAudio(`Toque na palavra para ouvir: ${item.palavra}. Depois toque na figura certa!`)}
+    ${botaoAudio(introducao+`Toque na palavra para ouvir: ${item.palavra}. Depois toque na figura certa!`)}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">🧔</div>
+      ${introducao ? `<div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${introducao}</p></div>` : ''}
       <button class="peca" style="font-size:calc(var(--mw) * 5 / 100); margin-bottom:1.5vh;" onclick="falar('${item.palavra}')">${item.palavra}</button>
       <div class="opcoes">${opcoes.map(e=>`<button class="bolha-opcao" onclick="tentarPalavra('${e}','${item.emoji}', this)">${icone(e)}</button>`).join('')}</div>
-      <div class="progresso">${PALAVRAS.map((_,i)=>`<div class="bolinha ${i<estado.palavraIndex?'feita':''}"></div>`).join('')}</div>
     </div>
-  `, ()=> falar(`Toque na palavra para ouvir, e depois toque na figura certa!`));
+  `, ()=> falar(introducao+'Toque na palavra para ouvir, e depois toque na figura certa!'));
 }
 function tentarPalavra(escolhida, correta, elemento){
-  const item = PALAVRAS[estado.palavraIndex];
+  const item = nivelAtualItem().dados;
   if(escolhida===correta){
     elemento.classList.add('certa-anim');
     falar(`Isso mesmo! ${item.palavra}! O portão está aberto!`);
-    setTimeout(()=>{
-      estado.erros=0; estado.palavraIndex++; salvarProgresso();
-      if(estado.palavraIndex>=PALAVRAS.length) cenaFimFase3(); else cenaDesafioPalavra();
-    },700);
+    setTimeout(()=> cenaFimNivel(), 700);
   } else {
     elemento.classList.add('errada-anim');
     estado.erros++;
@@ -986,7 +1016,7 @@ function cenaDesvioPalavra(buddy){
       <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">${icone(buddy.emoji)}</div>
       <div class="balao-fala"><span class="balao-nome">${buddy.npc}:</span><p class="balao-texto">${fala}</p></div>
       <button class="peca" style="font-size:1.4rem; margin-bottom:1.2vh;" onclick="falar('${buddy.palavra}')">${buddy.palavra}</button>
-      <div class="opcoes">${embaralha([buddy.imagemCerta,...buddy.outros]).map(e=>`<button class="bolha-opcao ${e===buddy.imagemCerta?'dica':''}" onclick="tentarDesvioPalavra('${e}','${buddy.imagemCerta}', this)">${e}</button>`).join('')}</div>
+      <div class="opcoes">${embaralha([buddy.imagemCerta,...buddy.outros]).map(e=>`<button class="bolha-opcao ${e===buddy.imagemCerta?'dica':''}" onclick="tentarDesvioPalavra('${e}','${buddy.imagemCerta}', this)">${icone(e)}</button>`).join('')}</div>
     </div>
   `, ()=> falar(fala));
 }
@@ -997,53 +1027,30 @@ function tentarDesvioPalavra(escolhida, correta, elemento){
     setTimeout(()=>cenaDesafioPalavra(),900);
   } else elemento.classList.add('errada-anim');
 }
-function cenaFimFase3(){
-  const texto = `${estado.nome}, muito obrigado! Agora eu consigo ler os portões de novo! Você ganhou a Bota Mágica de Atravessar Pontes!`;
-  estado.faseAtual=4; salvarProgresso();
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👢</div>
-      <div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${texto}</p></div>
-      ${mapaHTML(3)}
-      <button class="btn-grande" onclick="cenaCarregando(3)">Continuar para o Castelo</button>
-    </div>
-  `, ()=> falar(texto));
-}
 
 /* =========================================================
-   FASE 4 — CASTELO DAS FRASES
+   FASE (mundo 4) — FRASES
    ========================================================= */
-function cenaChegadaCastelo(){
-  const texto = `Que bagunça, ${estado.nome}! As frases dos livros reais se embaralharam! As palavras estão certas, mas fora de ordem — me ajuda a organizar?`;
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:7vh;">
-      <div class="npc-avatar" style="background:var(--magia); color:white;">👩‍👑</div>
-      <div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${texto}</p></div>
-      <button class="btn-grande" onclick="estado.fraseIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioFrase();">Vamos lá!</button>
-    </div>
-  `, ()=> falar(texto));
-}
 function cenaDesafioFrase(){
-  const item = FRASES[estado.fraseIndex];
+  const item = nivelAtualItem().dados;
   const numDistratoras = estado.erros===0?2 : estado.erros===1?1 : 0;
   const outras = TODAS_PALAVRAS_FRASE.filter(p=>!item.tokens.includes(p));
   const banco = embaralha([...item.tokens, ...amostra(outras,numDistratoras)]);
+  const introducao = ehPrimeiroDoMundo(estado.nivelAtual) ? `Que bagunça, ${estado.nome}! As frases dos livros reais se embaralharam! ` : '';
   mostrarCena(`
-    ${botaoAudio(`Olha essa figura! Toque as palavras na ordem certa para montar a frase.`)}
+    ${botaoAudio(introducao+'Olha essa figura! Toque as palavras na ordem certa para montar a frase.')}
     <div class="painel">
       <div class="npc-avatar" style="background:var(--magia); color:white;">👩‍👑</div>
+      ${introducao ? `<div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${introducao}</p></div>` : ''}
       <div style="font-size:calc(var(--mw) * 7 / 100);">${icone(item.emoji)}</div>
       <div class="slots" id="slotsFrase">${item.tokens.map(()=>`<div class="slot">_</div>`).join('')}</div>
       <div class="opcoes" id="bancoFrase">${banco.map(t=>`<button class="peca" onclick="tentarFrase('${t}', this)">${t}</button>`).join('')}</div>
-      <div class="progresso">${FRASES.map((_,i)=>`<div class="bolinha ${i<estado.fraseIndex?'feita':''}"></div>`).join('')}</div>
     </div>
-  `, ()=> falar('Toque as palavras na ordem certa para montar a frase!'));
+  `, ()=> falar(introducao+'Toque as palavras na ordem certa para montar a frase!'));
   window._montadoFrase = [];
 }
 function tentarFrase(token, elemento){
-  const item = FRASES[estado.fraseIndex];
+  const item = nivelAtualItem().dados;
   const proxima = item.tokens[window._montadoFrase.length];
   if(token===proxima){
     elemento.classList.add('usada');
@@ -1053,10 +1060,7 @@ function tentarFrase(token, elemento){
     slots[window._montadoFrase.length-1].classList.add('preenchido');
     if(window._montadoFrase.length===item.tokens.length){
       falar(`Isso! "${item.tokens.join(' ')}." Agora a frase faz todo sentido!`);
-      setTimeout(()=>{
-        estado.erros=0; estado.fraseIndex++; salvarProgresso();
-        if(estado.fraseIndex>=FRASES.length) cenaFimFase4(); else cenaDesafioFrase();
-      },900);
+      setTimeout(()=> cenaFimNivel(), 900);
     }
   } else {
     elemento.classList.add('errada-anim');
@@ -1067,7 +1071,6 @@ function tentarFrase(token, elemento){
 }
 function cenaDesvioFrase(buddy){
   const fala = buddy.falaNpc(estado.nome);
-  window._alvoDesvioFrase = buddy.tokens;
   mostrarCena(`
     ${botaoAudio(fala)}
     <div class="painel" style="margin-top:6vh;">
@@ -1080,7 +1083,8 @@ function cenaDesvioFrase(buddy){
   window._montadoDesvioFrase = [];
 }
 function tentarDesvioFrase(token, elemento){
-  const tokensAlvo = window._alvoDesvioFrase;
+  const buddy = BUDDIES_FASE4[estado.erros-1] || BUDDIES_FASE4[0];
+  const tokensAlvo = buddy.tokens;
   const proxima = tokensAlvo[window._montadoDesvioFrase.length];
   if(token===proxima){
     elemento.classList.add('usada');
@@ -1094,70 +1098,43 @@ function tentarDesvioFrase(token, elemento){
     }
   } else elemento.classList.add('errada-anim');
 }
-function cenaFimFase4(){
-  const texto = `${estado.nome}, você organizou todos os livros reais! Você ganhou a Coroa de Leitor Real! Agora só falta encontrar o Confusor!`;
-  estado.faseAtual=5; salvarProgresso();
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:5vh;">
-      <div style="font-size:calc(var(--mw) * 8 / 100);">🎉👑</div>
-      <div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${texto}</p></div>
-      ${mapaHTML(4)}
-      <button class="btn-grande" onclick="cenaCarregando(4)">Encontrar o Confusor</button>
-    </div>
-  `, ()=> falar(texto));
-}
 
 /* =========================================================
-   FASE 5 — CONFRONTO COM O CONFUSOR (escrita ativa)
+   FASE (mundo 5) — CONFUSOR (escrita ativa)
    ========================================================= */
-function cenaChegadaConfusor(){
-  const texto = `${estado.nome}, o Confusor não é malvado, ele só é distraído! Para fechar o Grande Alfabeto, você precisa escrever as palavras que faltam!`;
-  mostrarCena(`
-    ${botaoAudio(texto)}
-    <div class="painel" style="margin-top:7vh;">
-      <div class="npc-avatar" style="background:var(--coral);">🌀</div>
-      <div class="balao-fala"><span class="balao-nome">Confusor:</span><p class="balao-texto">Ai, ai, desculpa, desculpa! Eu não queria bagunçar nada, foi sem querer, foi o espirro!</p></div>
-      <div class="balao-fala"><span class="balao-nome">Narrador:</span><p class="balao-texto">${texto}</p></div>
-      <button class="btn-grande" onclick="estado.confusorIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioConfusor();">Vamos lá!</button>
-    </div>
-  `, ()=> falar(texto));
-}
 function cenaDesafioConfusor(){
-  const item = CONFUSOR_PALAVRAS[estado.confusorIndex];
-  const jaEscrito = (window._montadoConfusor || []).join('');
+  const item = nivelAtualItem().dados;
+  const introducao = ehPrimeiroDoMundo(estado.nivelAtual)
+    ? `Ai, ai, desculpa, desculpa! Eu não queria bagunçar nada, foi sem querer, foi o espirro! ${estado.nome}, o Confusor não é malvado, ele só é distraído! Para fechar o Grande Alfabeto, você precisa escrever as palavras que faltam! `
+    : '';
   mostrarCena(`
-    ${botaoAudio(`Toque nas letrinhas para escrever a palavra que falta: ${item.frase}... ${item.palavra}`)}
+    ${botaoAudio(introducao+`Toque nas letrinhas para escrever a palavra que falta: ${item.frase}... ${item.palavra}`)}
     <div class="painel">
+      ${introducao ? `<div class="npc-avatar" style="background:var(--coral);">🌀</div><div class="balao-fala"><span class="balao-nome">Confusor:</span><p class="balao-texto">${introducao}</p></div>` : ''}
       <div style="font-size:calc(var(--mw) * 7 / 100);">${icone(item.emoji)}</div>
       <p class="subtitulo">"${item.frase} ___"</p>
       <div class="campo-nome" id="campoConfusor">${'_ '.repeat(item.palavra.length)}</div>
       <div class="teclado" id="tecladoConfusor"></div>
-      <div class="progresso">${CONFUSOR_PALAVRAS.map((_,i)=>`<div class="bolinha ${i<estado.confusorIndex?'feita':''}"></div>`).join('')}</div>
     </div>
   `, ()=>{
     document.getElementById('tecladoConfusor').innerHTML = fileirasTeclado('tentarLetraConfusor', false);
-    falar(`${item.frase}... toque as letrinhas para completar a palavra!`);
+    falar(introducao || `${item.frase}... toque as letrinhas para completar a palavra!`);
   });
   window._montadoConfusor = [];
 }
 function tentarLetraConfusor(letra){
-  const item = CONFUSOR_PALAVRAS[estado.confusorIndex];
+  const item = nivelAtualItem().dados;
   const proxima = item.palavra[window._montadoConfusor.length];
   if(letra===proxima){
     window._montadoConfusor.push(letra);
     document.getElementById('campoConfusor').textContent = window._montadoConfusor.join(' ') + ' ' + '_ '.repeat(item.palavra.length - window._montadoConfusor.length);
     if(window._montadoConfusor.length===item.palavra.length){
       falar(`Isso mesmo! ${item.palavra}!`);
-      setTimeout(()=>{
-        estado.erros=0; estado.confusorIndex++; salvarProgresso();
-        if(estado.confusorIndex>=CONFUSOR_PALAVRAS.length) cenaFimDeJogo(); else cenaDesafioConfusor();
-      },900);
+      setTimeout(()=> cenaFimNivel(), 900);
     }
   } else {
     estado.erros++;
     if(estado.erros>=2){
-      // depois de 2 erros seguidos, destaca a letra certa como dica silenciosa
       const teclas = document.querySelectorAll('#tecladoConfusor .tecla');
       teclas.forEach(t=>{ if(t.textContent===proxima) t.classList.add('dica'); });
     }
@@ -1168,7 +1145,6 @@ function tentarLetraConfusor(letra){
    FIM DE JOGO — epílogo
    ========================================================= */
 function cenaFimDeJogo(){
-  estado.faseAtual = 6; salvarProgresso();
   const texto = `Uau... eu nunca soube escrever direito, só sabia bagunçar as letras. Obrigado por me ensinar, ${estado.nome}! Posso ser seu amigo agora?`;
   mostrarCena(`
     ${botaoAudio(texto)}
@@ -1184,55 +1160,53 @@ function cenaFimDeJogo(){
 }
 
 /* =========================================================
-   MAPA (usado nas telas de fim de fase)
+   MAPA — caminho serpenteando subindo pela tela, com os
+   mundos marcando os trechos, como pedido
    ========================================================= */
-function mapaHTML(faseConcluida){
-  const marcos = [
-    {emoji:'🏘️', nome:'Vila das Vogais'},
-    {emoji:'🌳', nome:'Floresta das Sílabas'},
-    {emoji:'🌉', nome:'Ponte das Palavras'},
-    {emoji:'🏰', nome:'Castelo das Frases'},
-    {emoji:'🌀', nome:'O Confusor'},
-  ];
-  return `<div class="mapa">${marcos.map((m,i)=>{
-    const feito = i < faseConcluida;
-    const atual = i === faseConcluida;
-    const bloqueado = i > faseConcluida;
-    const classes = ['marco'];
-    if(bloqueado) classes.push('bloqueado');
-    if(atual) classes.push('marco-atual');
-    const onclick = !bloqueado ? ` onclick="irParaFase(${i})"` : '';
-    return `<div class="${classes.join(' ')}"${onclick}>
-      <div class="marco-emoji">${icone(m.emoji)}</div>
-      <div class="marco-nome">${m.nome}</div>
-      ${feito ? '<div class="cadeado">✅ jogar de novo</div>' : atual ? '<div class="cadeado">▶ toque aqui</div>' : '<div class="cadeado">🔒</div>'}
-    </div>`;
-  }).join('')}</div>`;
+function cenaMapa(){
+  const secoes = MUNDOS_INFO.map(mundo=>{
+    const niveisDoMundo = NIVEIS.map((n,i)=>({...n, indice:i})).filter(n=>n.mundo===mundo.numero);
+    const nos = niveisDoMundo.map((n,pos)=>{
+      const feito = n.indice < estado.nivelAtual;
+      const atual = n.indice === estado.nivelAtual;
+      const bloqueado = n.indice > estado.nivelAtual;
+      const posClasse = ['pos-esq','pos-centro','pos-dir'][pos%3];
+      const classes = ['no-nivel'];
+      if(feito) classes.push('feito');
+      if(atual) classes.push('atual');
+      if(bloqueado) classes.push('bloqueado');
+      const onclick = !bloqueado ? ` onclick="irParaNivel(${n.indice})"` : '';
+      const conteudo = feito ? '✅' : bloqueado ? '🔒' : icone(n.emoji || mundo.emoji);
+      return `<div class="linha-no ${posClasse}"><div class="${classes.join(' ')}"${onclick}>${conteudo}<div class="no-numero">${n.indice+1}</div></div></div>`;
+    }).join('');
+    return `<div class="mundo-secao">${nos}<div class="mundo-rotulo" style="background:${mundo.cor};">${icone(mundo.emoji)} ${mundo.nome}</div></div>`;
+  }).join('');
+
+  mostrarCena(`
+    <div class="mapa-cabecalho">
+      <h2 class="titulo" style="margin:0; font-size:calc(var(--mw) * 5 / 100);">🗺️ Mapa da Aventura</h2>
+    </div>
+    <div class="caminho">${secoes}</div>
+  `);
+  setTimeout(()=>{
+    const atual = document.querySelector('.no-nivel.atual');
+    if(atual && atual.scrollIntoView){ try{ atual.scrollIntoView({block:'center'}); }catch(e){} }
+  }, 60);
 }
-// navega direto para a fase escolhida no mapa (fases já liberadas ou concluídas)
-function irParaFase(indice){
-  switch(indice){
-    case 0: estado.vogalIndex=0; estado.erros=0; break;
-    case 1: estado.silabaIndex=0; estado.erros=0; break;
-    case 2: estado.palavraIndex=0; estado.erros=0; break;
-    case 3: estado.fraseIndex=0; estado.erros=0; break;
-    case 4: estado.confusorIndex=0; estado.erros=0; break;
-  }
-  cenaCarregando(indice);
+// navega para um nível específico do mapa (níveis já liberados ou concluídos)
+function irParaNivel(indice){
+  estado.nivelAtual = indice;
+  estado.erros = 0;
+  salvarProgresso();
+  cenaCarregandoNivel(indice);
 }
 
 /* =========================================================
    INÍCIO — retoma progresso salvo ou começa do zero
    ========================================================= */
 function retomarNaFase(){
-  switch(estado.faseAtual){
-    case 1: cenaDesafioVogal(); break;
-    case 2: cenaDesafioSilaba(); break;
-    case 3: cenaDesafioPalavra(); break;
-    case 4: cenaDesafioFrase(); break;
-    case 5: cenaDesafioConfusor(); break;
-    default: cenaFimDeJogo();
-  }
+  if(estado.nivelAtual >= NIVEIS.length){ cenaFimDeJogo(); return; }
+  iniciarNivel(estado.nivelAtual);
 }
 function continuarProgressoSalvo(){
   const salvo = carregarProgresso();
@@ -1253,7 +1227,7 @@ function continuarProgressoSalvo(){
 })();
 
 // Hook de depuração (não afeta o jogo): útil para suporte técnico e testes automatizados.
-window.__jogoDebug = { estado, VOGAIS, SILABAS, PALAVRAS, FRASES, CONFUSOR_PALAVRAS, BUDDIES_FASE2, BUDDIES_FASE3, BUDDIES_FASE4 };
+window.__jogoDebug = { estado, VOGAIS, SILABAS, PALAVRAS, FRASES, CONFUSOR_PALAVRAS, BUDDIES_FASE2, BUDDIES_FASE3, BUDDIES_FASE4, NIVEIS, MUNDOS_INFO };
 </script>
 </body>
 </html>
