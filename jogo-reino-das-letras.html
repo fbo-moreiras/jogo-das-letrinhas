@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>O Reino das Letras Perdidas</title>
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTyBSZWlubyBkYXMgTGV0cmFzIFBlcmRpZGFzIiwic2hvcnRfbmFtZSI6IlJlaW5vIGRhcyBMZXRyYXMiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzZFQzZFMyIsInRoZW1lX2NvbG9yIjoiI0ZGOEI2QiIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSTFNVElpSUdobGFXZG9kRDBpTlRFeUlqNDhjbVZqZENCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUlnY25nOUlqazJJaUJtYVd4c1BTSWpSa1k0UWpaQ0lpOCtQSFJsZUhRZ2VEMGlNalUySWlCNVBTSXpNREFpSUdadmJuUXRjMmw2WlQwaU16QXdJaUIwWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSWlCa2IyMXBibUZ1ZEMxaVlYTmxiR2x1WlQwaWJXbGtaR3hsSWo3d241T1dQQzkwWlhoMFBqd3ZjM1puUGc9PSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSJ9XX0=">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjRkY4QjZCIi8+PHRleHQgeD0iMjU2IiB5PSIzMDAiIGZvbnQtc2l6ZT0iMzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5OWPC90ZXh0Pjwvc3ZnPg==">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9Ijk2IiBmaWxsPSIjRkY4QjZCIi8+PHRleHQgeD0iMjU2IiB5PSIzMDAiIGZvbnQtc2l6ZT0iMzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5OWPC90ZXh0Pjwvc3ZnPg==">
+<meta name="theme-color" content="#FF8B6B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reino das Letras">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ceu: #6EC6E3;
+    --ceu-escuro: #4CA9CC;
+    --grama: #8FD14F;
+    --grama-escura: #6FB238;
+    --sol: #FFD447;
+    --magia: #9B6BD9;
+    --coral: #FF8B6B;
+    --coral-escuro: #E96E4D;
+    --tinta: #2B2340;
+    --branco: #FFFDF8;
+    --sombra: rgba(43,35,64,0.25);
+    --casinha-w: 15vw;
+    --avatar-w: 18vw;
+    --bolha-w: 14vw;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html{ height:100%; }
+  body{
+    margin:0; padding:0;
+    min-height:100vh;
+    min-height:100dvh;
+    font-family:'Nunito', sans-serif;
+    background: linear-gradient(180deg, var(--ceu) 0%, var(--ceu) 60%, var(--grama) 60%, var(--grama-escura) 100%);
+    background-attachment: fixed;
+    color: var(--tinta);
+    width:100%;
+    position:relative;
+    user-select:none;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .titulo{ font-family:'Baloo 2', sans-serif; }
+  h2.titulo{ font-size: 6vw; font-weight:800; margin: 1.2vh 0; line-height:1.2; }
+
+  #app{ position:relative; z-index:1; width:100%; min-height:100vh; min-height:100dvh; }
+
+  .scene{
+    position:absolute; top:0; right:0; bottom:0; left:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding: 3vh 4vw;
+    padding: 3vh 4vw calc(3vh + env(safe-area-inset-bottom, 0px)) 4vw;
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
+    min-height:100%;
+  }
+  .scene.ativa{ display:flex; animation: entra 0.4s ease; }
+  @keyframes entra{ from{opacity:0;} to{opacity:1;} }
+
+  .sol{
+    position:absolute; top:3vh; right:5vw;
+    width:9vw; height:9vw; border-radius:50%;
+    background: radial-gradient(circle at 35% 35%, #FFE58A, var(--sol));
+    box-shadow: 0 0 24px 8px rgba(255,212,71,0.5);
+    pointer-events:none;
+  }
+  .nuvem{ position:fixed; background:rgba(255,255,255,0.85); border-radius:50%; pointer-events:none; z-index:0; }
+  .nuvem::before, .nuvem::after{ content:""; position:absolute; background:inherit; border-radius:50%; }
+  .nuvem1{ top:6vh; left:8vw; width:14vw; height:5vh; }
+  .nuvem1::before{ width:8vw; height:8vw; top:-4vw; left:1vw; }
+  .nuvem1::after{ width:6vw; height:6vw; top:-3vw; left:7vw; }
+  .nuvem2{ top:12vh; right:14vw; width:11vw; height:4vh; opacity:0.8; }
+  .nuvem2::before{ width:6vw; height:6vw; top:-3vw; left:1vw; }
+  .nuvem2::after{ width:5vw; height:5vw; top:-2.5vw; left:5vw; }
+  .argola{
+    position:fixed; border-radius:50%; border: 1vw solid var(--sol);
+    background:transparent; pointer-events:none; z-index:0;
+    box-shadow: 0 0 10px rgba(255,212,71,0.6);
+    animation: flutua 4s ease-in-out infinite;
+  }
+  .argola1{ top:38vh; left:6vw; width:6vw; height:6vw; }
+  .argola2{ top:22vh; right:22vw; width:5vw; height:5vw; animation-delay:1.5s; }
+  .colinas{
+    position:fixed; left:0; right:0; top:60%; height:8vh; z-index:0;
+    pointer-events:none; opacity:0.55;
+    background-image:
+      radial-gradient(circle at 8% 0%, var(--grama-escura) 0%, var(--grama-escura) 7vh, transparent 7vh),
+      radial-gradient(circle at 28% 0%, var(--grama-escura) 0%, var(--grama-escura) 6vh, transparent 6vh),
+      radial-gradient(circle at 48% 0%, var(--grama-escura) 0%, var(--grama-escura) 7vh, transparent 7vh),
+      radial-gradient(circle at 68% 0%, var(--grama-escura) 0%, var(--grama-escura) 6vh, transparent 6vh),
+      radial-gradient(circle at 88% 0%, var(--grama-escura) 0%, var(--grama-escura) 7vh, transparent 7vh);
+  }
+
+  .painel{
+    background: var(--branco);
+    border-radius: 24px;
+    box-shadow: 0 8px 0 var(--sombra), 0 12px 26px rgba(43,35,64,0.15);
+    padding: 3vh 4vw;
+    max-width: 620px;
+    width:100%;
+    text-align:center;
+    margin-bottom: 2vh;
+  }
+
+  .titulo-jogo{
+    font-size: 8vw;
+    color: var(--branco);
+    text-shadow: 0 4px 0 var(--coral-escuro), 0 8px 16px rgba(0,0,0,0.2);
+    margin: 1.5vh 0 1vh 0;
+    letter-spacing: 1px;
+    line-height:1.15;
+  }
+
+  .subtitulo{
+    font-size: 2.6vw;
+    font-weight:700;
+    max-width: 90%;
+    line-height:1.5;
+    margin: 0 auto 2vh auto;
+  }
+
+  .balao-fala{
+    background: var(--branco);
+    border-radius: 20px;
+    padding: 2.2vh 4vw;
+    max-width: 560px;
+    position:relative;
+    box-shadow: 0 5px 0 var(--sombra);
+    margin: 0 auto 2vh auto;
+  }
+  .balao-nome{ font-family:'Baloo 2'; font-weight:800; color: var(--magia); }
+  .balao-texto{ font-size: 2.6vw; font-weight:700; line-height:1.5; margin:4px 0 0 0;}
+
+  .npc-avatar{
+    width: var(--avatar-w); height:var(--avatar-w); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: calc(var(--avatar-w) * 0.5);
+    margin: 0 auto 1.2vh auto;
+    box-shadow: 0 6px 0 var(--sombra);
+    animation: flutua 3s ease-in-out infinite;
+    flex-shrink:0;
+  }
+  @keyframes flutua{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+  button{ font-family:'Baloo 2', sans-serif; border:none; cursor:pointer; }
+
+  .btn-grande{
+    background: var(--coral);
+    color: var(--branco);
+    font-size: 3vw;
+    font-weight:700;
+    padding: 1.6vh 6vw;
+    border-radius: 999px;
+    box-shadow: 0 6px 0 var(--coral-escuro);
+    margin: 6px;
+    transition: transform 0.1s;
+  }
+  .btn-grande:active{ transform: translateY(4px); box-shadow: 0 2px 0 var(--coral-escuro); }
+  .btn-secundario{ background: var(--magia); box-shadow: 0 6px 0 #7748AD; }
+
+  .btn-audio{
+    background: var(--magia);
+    color: var(--branco);
+    width:10vw; height:10vw; border-radius:50%;
+    font-size:3vw;
+    box-shadow: 0 5px 0 #7748AD;
+    position:absolute; top:2.5vh; left:3vw;
+    z-index:5;
+  }
+  .btn-audio:active{ transform: translateY(4px); box-shadow:none; }
+
+  .btn-reset{
+    position:absolute; bottom:1vh; right:2vw;
+    background:none; color: rgba(43,35,64,0.55);
+    font-size:0.7rem; font-family:'Nunito'; font-weight:700;
+    text-decoration:underline; padding:6px;
+  }
+  .btn-home{
+    position:fixed; bottom:1.5vh; left:2vw;
+    background: var(--magia); color:var(--branco);
+    width:44px; height:44px; border-radius:50%;
+    font-size:1.3rem;
+    box-shadow: 0 4px 0 #7748AD;
+    z-index:5;
+  }
+  .btn-home:active{ transform: translateY(3px); box-shadow:none; }
+  .spinner{
+    width:64px; height:64px; border-radius:50%;
+    border: 8px solid rgba(255,255,255,0.45); border-top-color: var(--coral);
+    animation: girar 0.9s linear infinite;
+  }
+  @keyframes girar{ to{ transform:rotate(360deg); } }
+  .capa-jogo-avatar{
+    width:26vw; height:26vw; max-width:150px; max-height:150px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:12vw;
+    box-shadow: 0 8px 0 var(--sombra), 0 12px 26px rgba(43,35,64,0.2);
+    margin-bottom: 2vh; animation: flutua 3s ease-in-out infinite;
+  }
+  .capa-jogo-rotulo{
+    font-family:'Baloo 2'; font-weight:800; font-size:0.95rem; letter-spacing:3px;
+    color: var(--tinta); opacity:0.6; margin:0 0 0.5vh 0;
+  }
+
+  /* teclado (usado na criação do nome e na Fase 5) */
+  .campo-nome{
+    font-family:'Baloo 2'; font-size: 6vw;
+    letter-spacing:6px; min-height: 50px;
+    color: var(--magia); font-weight:800;
+    border-bottom: 5px dashed var(--coral);
+    padding: 0 16px; margin: 0 auto 2vh auto;
+    max-width: 90%;
+  }
+  .teclado{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 1vh;
+    max-width: 640px;
+    width:100%;
+    margin: 0 auto;
+  }
+  .fileira-teclado{
+    display:flex;
+    gap: 1vw;
+    justify-content:center;
+    width:100%;
+  }
+  .tecla{
+    background: var(--sol);
+    color: var(--tinta);
+    font-size: 2.6vw;
+    font-weight:800;
+    border-radius: 8px;
+    flex: 1 1 0;
+    min-width:0;
+    max-width: 54px;
+    aspect-ratio: 1;
+    box-shadow: 0 4px 0 #E0B426;
+  }
+  .tecla:active{ transform: translateY(3px); box-shadow:none; }
+  .tecla-especial{ background: var(--coral); color:var(--branco); box-shadow: 0 4px 0 var(--coral-escuro); flex: 1.6 1 0; max-width:86px; font-size: 2vw; }
+  .tecla.dica{ animation: pisca 0.9s ease-in-out infinite; background:#FFF3C4; }
+
+  /* vila e casinhas (Fase 1) */
+  .vila{
+    display:flex; gap: 2vw; justify-content:center; align-items:flex-end;
+    margin: 1.5vh 0 2.5vh 0; flex-wrap:wrap;
+  }
+  .casinha{ width: var(--casinha-w); display:flex; flex-direction:column; align-items:center; }
+  .telhado{
+    width:0; height:0;
+    border-left: calc(var(--casinha-w)/2) solid transparent;
+    border-right: calc(var(--casinha-w)/2) solid transparent;
+    border-bottom: calc(var(--casinha-w)*0.42) solid var(--coral-escuro);
+  }
+  .parede{
+    width:var(--casinha-w); height:calc(var(--casinha-w)*0.78); background:var(--branco); border-radius: 0 0 8px 8px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2'; font-weight:800; font-size:calc(var(--casinha-w)*0.4); color:#ccc;
+  }
+  .parede.completa{ color: var(--magia); animation: brilha 0.6s ease; }
+  @keyframes brilha{ 0%{ transform:scale(1);} 40%{transform:scale(1.2);} 100%{transform:scale(1);} }
+
+  /* opções (letras, sílabas, imagens, palavras) */
+  .opcoes{
+    display:flex; gap: 2.5vw; justify-content:center; flex-wrap:wrap;
+    margin: 1.5vh 0; width:100%;
+  }
+  .bolha-opcao{
+    min-width: var(--bolha-w); height:var(--bolha-w); border-radius:50%;
+    background: var(--branco); padding: 0 6px;
+    font-family:'Nunito'; font-weight:900; font-size:4vw;
+    color: var(--tinta);
+    box-shadow: 0 5px 0 var(--sombra);
+    display:flex; align-items:center; justify-content:center;
+    transition: transform 0.15s;
+  }
+  .bolha-opcao:active{ transform: translateY(4px) scale(0.96); }
+  .bolha-opcao.dica{ animation: pisca 0.9s ease-in-out infinite; background: #FFF3C4; }
+  @keyframes pisca{ 0%,100%{ box-shadow:0 5px 0 var(--sombra);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 8px rgba(255,212,71,0.6);} }
+  .bolha-opcao.errada-anim{ animation: bamboleia 0.4s ease; }
+  @keyframes bamboleia{ 0%,100%{transform:rotate(0);} 30%{transform:rotate(-8deg);} 60%{transform:rotate(8deg);} }
+  .bolha-opcao.certa-anim{ animation: acerto 0.5s ease; }
+  @keyframes acerto{ 0%{transform:scale(1);} 50%{transform:scale(1.3) rotate(10deg); background:#D8F5C0;} 100%{transform:scale(1);} }
+  .bolha-opcao.usada{ visibility:hidden; }
+
+  /* pecinhas retangulares (sílabas / palavras da frase) */
+  .peca{
+    background: var(--branco); font-weight:900; font-family:'Nunito';
+    font-size: 3.2vw;
+    padding: 1.6vh 2.5vw;
+    border-radius: 14px;
+    box-shadow: 0 5px 0 var(--sombra);
+    transition: transform 0.15s;
+  }
+  .peca:active{ transform: translateY(4px) scale(0.97); }
+  .peca.usada{ visibility:hidden; }
+  .peca.errada-anim{ animation: bamboleia 0.4s ease; }
+
+  .slots{ display:flex; gap: 2vw; justify-content:center; flex-wrap:wrap; margin: 1.5vh 0; min-height: 44px; }
+  .slot{
+    min-width: 46px; height:46px; border-radius:10px;
+    background: rgba(255,255,255,0.5);
+    border: 3px dashed rgba(43,35,64,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Nunito'; font-weight:900; font-size:1.1rem; color: var(--magia);
+    padding: 0 8px;
+  }
+  .slot.preenchido{ background: var(--branco); border-style:solid; border-color: var(--magia); }
+
+  .progresso{ display:flex; gap:8px; margin-top:0.5vh; flex-wrap:wrap; justify-content:center; }
+  .bolinha{ width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.5); }
+  .bolinha.feita{ background: var(--sol); }
+
+  .mapa{ display:flex; gap:2vw; flex-wrap:wrap; justify-content:center; margin:1.5vh 0; }
+  .marco{
+    width:20vw; padding: 1.4vh 4px; border-radius:16px; background:var(--branco);
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    box-shadow: 0 5px 0 var(--sombra);
+  }
+  .marco:not(.bloqueado){ cursor:pointer; }
+  .marco:not(.bloqueado):active{ transform: translateY(4px); box-shadow:none; }
+  .marco.bloqueado{ opacity:0.5; }
+  .marco.marco-atual{ box-shadow: 0 5px 0 var(--sombra), 0 0 0 4px var(--sol); animation: pisca-marco 1.2s ease-in-out infinite; }
+  @keyframes pisca-marco{ 0%,100%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 4px var(--sol);} 50%{ box-shadow:0 5px 0 var(--sombra), 0 0 0 8px rgba(255,212,71,0.5);} }
+  .marco-emoji{ font-size:5vw; }
+  .marco-nome{ font-size:2vw; font-weight:800; text-align:center; padding:0 4px;}
+  .cadeado{ font-size:1.8vw; font-weight:700; }
+
+  @media (max-height: 640px){
+    .npc-avatar{ display:none; }
+    .painel{ padding: 1.4vh 3vw; }
+  }
+  @media (max-width: 360px){
+    .titulo-jogo{ font-size:1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="sol"></div>
+<div class="nuvem nuvem1"></div>
+<div class="nuvem nuvem2"></div>
+<div class="argola argola1"></div>
+<div class="argola argola2"></div>
+<div class="colinas"></div>
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   O REINO DAS LETRAS PERDIDAS — protótipo jogável
+   5 fases completas + progresso salvo automaticamente
+   (localStorage do navegador — funciona offline, no aparelho)
+   ========================================================= */
+
+const app = document.getElementById('app');
+const CHAVE_SALVAMENTO = 'reinoDasLetras_progresso_v1';
+
+// rede de segurança: se algo inesperado quebrar, mostra uma mensagem em vez de tela em branco
+window.onerror = function(mensagem){
+  if(app && !app.querySelector('.scene')){
+    app.innerHTML = '<div style="padding:6vh 6vw; color:white; font-family:sans-serif; text-align:center;">'
+      + '<div style="font-size:2.5rem;">😕</div>'
+      + '<p style="font-weight:700;">Ops, o jogo encontrou um probleminha técnico ao abrir.</p>'
+      + '<p style="font-size:0.85rem; opacity:0.85;">Detalhe técnico: ' + mensagem + '</p>'
+      + '<button onclick="location.reload()" style="margin-top:12px; padding:10px 24px; border-radius:999px; border:none; background:#FF8B6B; color:white; font-weight:700;">Tentar de novo</button>'
+      + '</div>';
+  }
+};
+
+// ---------- instalar na tela inicial ----------
+let promptInstalacaoAdiado = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  promptInstalacaoAdiado = e;
+  const btn = document.getElementById('btnInstalar');
+  if(btn) btn.style.display = 'inline-block';
+});
+function tentarInstalar(){
+  if(promptInstalacaoAdiado){
+    promptInstalacaoAdiado.prompt();
+    const limpar = function(){ promptInstalacaoAdiado=null; };
+    if(promptInstalacaoAdiado.userChoice && promptInstalacaoAdiado.userChoice.then) promptInstalacaoAdiado.userChoice.then(limpar, limpar);
+    else limpar();
+  } else {
+    alert('Para instalar o jogo na tela inicial:\n\n1. Toque no menu do navegador (geralmente os 3 pontinhos ⋮ no canto)\n2. Toque em "Adicionar à tela inicial" ou "Instalar app"\n\nAssim um ícone do jogo aparece direto na tela do tablet!');
+  }
+}
+
+const estado = {
+  nome: '',
+  faseAtual: 1,     // 1 a 5, e 6 = jogo concluído
+  vogalIndex: 0, silabaIndex: 0, palavraIndex: 0, fraseIndex: 0, confusorIndex: 0,
+  erros: 0,
+  audioLigado: true,
+  vozIndex: 0
+};
+
+// ---------- salvar / carregar progresso ----------
+function salvarProgresso(){
+  try{
+    const dados = {
+      nome: estado.nome, faseAtual: estado.faseAtual,
+      vogalIndex: estado.vogalIndex, silabaIndex: estado.silabaIndex,
+      palavraIndex: estado.palavraIndex, fraseIndex: estado.fraseIndex,
+      confusorIndex: estado.confusorIndex
+    };
+    localStorage.setItem(CHAVE_SALVAMENTO, JSON.stringify(dados));
+  }catch(e){ /* localStorage pode estar bloqueado — o jogo segue funcionando, só sem salvar */ }
+}
+function carregarProgresso(){
+  try{
+    const bruto = localStorage.getItem(CHAVE_SALVAMENTO);
+    return bruto ? JSON.parse(bruto) : null;
+  }catch(e){ return null; }
+}
+function apagarProgresso(){
+  try{ localStorage.removeItem(CHAVE_SALVAMENTO); }catch(e){}
+  location.reload();
+}
+function botaoReset(){
+  return `<button class="btn-reset" onclick="if(confirm('Apagar o progresso e recomeçar do zero?')) apagarProgresso();">🔄 recomeçar aventura</button>`;
+}
+
+// ---------- narração (Web Speech API) ----------
+window._ultimaFala = '';
+window._vozesCache = [];
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged = function(){ window._vozesCache = window.speechSynthesis.getVoices(); };
+  window._vozesCache = window.speechSynthesis.getVoices();
+}
+function vozesPortugues(){
+  const todas = window._vozesCache && window._vozesCache.length ? window._vozesCache : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+  const pt = todas.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('pt')===0; });
+  return pt.length ? pt : todas; // se não achar nenhuma em português, usa qualquer voz disponível
+}
+// tenta reconhecer, pelo nome da voz, quais soam mais "masculinas" (heurística, depende do que
+// o Android/fabricante do tablet instalou — nem todo aparelho tem mais de uma voz em português)
+function pareceMasculina(v){
+  const n = (v.name||'').toLowerCase();
+  return n.indexOf('male')>-1 || n.indexOf('masculin')>-1 || n.indexOf(' b')>-1 || n.indexOf('#2')>-1;
+}
+function falar(texto){
+  window._ultimaFala = texto;
+  if(!estado.audioLigado) return;
+  try{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = 'pt-BR';
+    u.rate = 0.95;
+    u.pitch = 1.05;
+    const vozes = vozesPortugues();
+    if(vozes[estado.vozIndex]) u.voice = vozes[estado.vozIndex];
+    window.speechSynthesis.speak(u);
+  }catch(e){ /* navegador sem suporte: segue só com o texto na tela */ }
+}
+function alternarAudio(){
+  estado.audioLigado = !estado.audioLigado;
+  const botoes = document.querySelectorAll('.btn-audio');
+  for(let i=0;i<botoes.length;i++) botoes[i].textContent = estado.audioLigado ? '🔊' : '🔈';
+  if(!estado.audioLigado && window.speechSynthesis) window.speechSynthesis.cancel();
+  else if(estado.audioLigado && window._ultimaFala) falar(window._ultimaFala);
+}
+function alternarVoz(){
+  const vozes = vozesPortugues();
+  if(vozes.length<2){
+    alert('Este tablet só tem uma voz instalada para português. Para ter outra opção de voz (por exemplo uma masculina), é preciso instalar um pacote de voz extra em: Configurações do Android > Acessibilidade > Conversão de texto em voz > Motor de voz preferido > instalar dados de voz.');
+    return;
+  }
+  estado.vozIndex = (estado.vozIndex + 1) % vozes.length;
+  falar(window._ultimaFala || ('Testando esta voz.'));
+}
+function botaoAudio(textoParaRepetir){
+  return `<button class="btn-audio" onclick="alternarAudio()" title="Ligar/desligar o som">${estado.audioLigado ? '🔊':'🔈'}</button>
+  <button class="btn-audio" style="left:auto; right:3vw; background:var(--coral);" onclick="alternarVoz()" title="Trocar a voz">🎙️</button>
+  <button class="btn-home" onclick="if(confirm('Voltar para a tela inicial? Seu progresso fica salvo.')) cenaTitulo();" title="Voltar para a home">🏠</button>`;
+}
+
+// ---------- utilidades ----------
+function embaralha(lista){ return [...lista].sort(()=>Math.random()-0.5); }
+function amostra(lista, n){ return embaralha(lista).slice(0, Math.max(0,n)); }
+
+// ---------- deteccao de suporte a emoji (com fallback em letra, para telas cuja fonte nao tem certos simbolos) ----------
+const _emojiCache = {};
+function _emojiSuportado(ch){
+  if(_emojiCache.hasOwnProperty(ch)) return _emojiCache[ch];
+  try{
+    const tam = 24;
+    function desenha(caracter){
+      const c = document.createElement('canvas'); c.width=tam; c.height=tam;
+      const ctx = c.getContext('2d');
+      ctx.textBaseline='top'; ctx.font=(tam-4)+'px sans-serif';
+      ctx.fillStyle='#000';
+      ctx.fillText(caracter, 0, 0);
+      return ctx.getImageData(0,0,tam,tam).data;
+    }
+    const a = desenha(ch);
+    const b = desenha('\uE000'); // area de uso privado do Unicode, garantidamente sem glifo definido em nenhuma fonte
+    let iguais = 0;
+    const totalPixels = a.length/4;
+    for(let i=0;i<a.length;i+=4){ if(a[i]===b[i] && a[i+1]===b[i+1] && a[i+2]===b[i+2] && a[i+3]===b[i+3]) iguais++; }
+    const suportado = (iguais/totalPixels) < 0.985; // se quase todo pixel bate com o "sem glifo", nao esta desenhando o simbolo de verdade
+    _emojiCache[ch] = suportado;
+    return suportado;
+  }catch(e){ _emojiCache[ch]=true; return true; }
+}
+const EMOJI_LETRA = {
+  '🐝':'A','🦜':'A','🕷️':'A','🍍':'A','🫐':'A','🔵':'A','🟡':'O',
+  '🐘':'E','🦤':'E','🐟':'E','🟢':'E',
+  '🦎':'I','🐛':'I',
+  '🐆':'O','🐑':'O','🦫':'O','🫒':'O','🥇':'O',
+  '🐻':'U','🦅':'U','🦄':'U','🍇':'U',
+  '⚽':'B','🐄':'V','🎲':'D','🧚':'F','🧳':'M','🪁':'P',
+  '🐱':'G','🦆':'P','🏠':'C','🚗':'C','🌳':'C','🐸':'S','🌙':'L','☀️':'S','⭐':'L',
+  '🦉':'C','🐰':'C','🐦':'P','🦦':'L','👴':'V','👩‍👑':'F','🧔':'P','🧑‍🍳':'P','👩‍🍳':'D','💂':'G','🌀':'C',
+  '🏘️':'V','🌉':'P','🏰':'C'
+};
+function icone(ch){
+  if(!ch) return '';
+  return _emojiSuportado(ch) ? ch : ('<span style="font-weight:900;">'+(EMOJI_LETRA[ch]||'★')+'</span>');
+}
+function mostrarCena(html, aoEntrar){
+  app.innerHTML = `<div class="scene ativa">${html}</div>`;
+  window.scrollTo(0,0);
+  if(aoEntrar) aoEntrar();
+}
+// gera as 3 fileiras de um teclado QWERTY reutilizável
+function fileirasTeclado(onTecla, comApagar, aoApagar){
+  const fileiras = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['Z','X','C','V','B','N','M']
+  ];
+  return fileiras.map((fileira,i)=>{
+    const teclas = fileira.map(l=>`<button class="tecla" onclick="${onTecla}('${l}')">${l}</button>`).join('');
+    const apagar = (comApagar && i===fileiras.length-1) ? `<button class="tecla tecla-especial" onclick="${aoApagar}()">⌫</button>` : '';
+    return `<div class="fileira-teclado">${teclas}${apagar}</div>`;
+  }).join('');
+}
+
+/* =========================================================
+   DADOS DO JOGO
+   ========================================================= */
+const VOGAIS = [
+  { letra:'A', som:'Aaaaaa', npc:'Dona Abelinha', emoji:'🐝',
+    exemplos:[
+      {palavra:'Abelha', emoji:'🐝'}, {palavra:'Arara', emoji:'🦜'}, {palavra:'Aranha', emoji:'🕷️'},
+      {palavra:'Abacaxi', emoji:'🍍'}, {palavra:'Amora', emoji:'🫐'}, {palavra:'Azul', emoji:'🔵'}, {palavra:'Amarelo', emoji:'🟡'},
+    ],
+    falaNpc: (n)=>`Oi, ${n}! Eu adoro a letra A, porque ela começa o meu nome: A-be-lha! Toca na letra A pra gente treinar juntinhas!` },
+  { letra:'E', som:'Eeeee', npc:'Elefantinho', emoji:'🐘',
+    exemplos:[ {palavra:'Elefante', emoji:'🐘'}, {palavra:'Ema', emoji:'🦤'}, {palavra:'Enguia', emoji:'🐟'}, {palavra:'Esmeralda', emoji:'🟢'} ],
+    falaNpc: (n)=>`Oi, ${n}! "Eeee" de Elefante, que sou eu! Toca na letra E pra gente treinar juntinhos!` },
+  { letra:'I', som:'Iiiii', npc:'Iguana Iara', emoji:'🦎',
+    exemplos:[ {palavra:'Iguana', emoji:'🦎'}, {palavra:'Inseto', emoji:'🐛'} ],
+    falaNpc: (n)=>`Oi, ${n}! Eu sou a Iguana Iara, "Iiii" de Iguana! Toca na letra I pra gente treinar!` },
+  { letra:'O', som:'Ooooo', npc:'Onça Ozana', emoji:'🐆',
+    exemplos:[ {palavra:'Onça', emoji:'🐆'}, {palavra:'Ovelha', emoji:'🐑'}, {palavra:'Ornitorrinco', emoji:'🦫'}, {palavra:'Oliva', emoji:'🫒'}, {palavra:'Ouro', emoji:'🥇'} ],
+    falaNpc: (n)=>`Oi, ${n}! "Oooo" de Onça, essa sou eu! Toca na letra O pra gente treinar juntinhas!` },
+  { letra:'U', som:'Uuuuu', npc:'Ursinho Urso', emoji:'🐻',
+    exemplos:[ {palavra:'Urso', emoji:'🐻'}, {palavra:'Urubu', emoji:'🦅'}, {palavra:'Unicórnio', emoji:'🦄'}, {palavra:'Uva', emoji:'🍇'} ],
+    falaNpc: (n)=>`Oi, ${n}! "Uuuu" de Urso, esse sou eu! Toca na letra U pra gente treinar!` },
+];
+function exemploDaTentativa(vogal, tentativaIndex){ return vogal.exemplos[tentativaIndex % vogal.exemplos.length]; }
+
+const SILABAS = [
+  { palavra:'BOLA', partes:['BO','LA'], emoji:'⚽' },
+  { palavra:'VACA', partes:['VA','CA'], emoji:'🐄' },
+  { palavra:'DADO', partes:['DA','DO'], emoji:'🎲' },
+  { palavra:'FADA', partes:['FA','DA'], emoji:'🧚' },
+  { palavra:'MALA', partes:['MA','LA'], emoji:'🧳' },
+  { palavra:'PIPA', partes:['PI','PA'], emoji:'🪁' },
+];
+const TODAS_SILABAS = (function(){
+  var todas = [];
+  for(var i=0;i<SILABAS.length;i++){ todas = todas.concat(SILABAS[i].partes); }
+  return todas.filter(function(v,i){ return todas.indexOf(v)===i; });
+})();
+const BUDDIES_FASE2 = [
+  { npc:'Sapo Sopinha', emoji:'🐸', partes:['SO','PA'], palavra:'SOPA', falaNpc:(n)=>`Oi, oi, ${n}! Eu adoro pular cantando: SO-SO-SO! Vamos treinar juntando SO... PA... SOPA!` },
+  { npc:'Coelho Cadu', emoji:'🐰', partes:['CA','SA'], palavra:'CASA', falaNpc:(n)=>`Oi, ${n}! Eu moro numa CA... SA bem fofinha! Vamos treinar juntando essas sílabas?` },
+  { npc:'Passarinho Pipico', emoji:'🐦', partes:['PI','PA'], palavra:'PIPA', falaNpc:(n)=>`Oi, ${n}! Eu adoro voar perto de uma PI... PA! Vamos treinar juntinhos?` },
+];
+
+const PALAVRAS = [
+  { palavra:'GATO', emoji:'🐱', outros:['🐶','🦆'] },
+  { palavra:'PATO', emoji:'🦆', outros:['🐱','🐸'] },
+  { palavra:'CASA', emoji:'🏠', outros:['🚗','🌳'] },
+  { palavra:'SAPO', emoji:'🐸', outros:['🐱','🦆'] },
+  { palavra:'LUA',  emoji:'🌙', outros:['☀️','⭐'] },
+  { palavra:'PIPA', emoji:'🪁', outros:['⚽','🎲'] },
+];
+const BUDDIES_FASE3 = [
+  { npc:'Lontra Letícia', emoji:'🦦', palavra:'LUA', imagemCerta:'🌙', outros:['☀️'], falaNpc:(n)=>`Oi, ${n}! Eu adoro mostrar figurinhas! Essa aqui é LUA. Toca na figura da lua!` },
+  { npc:'Pato Paulinho', emoji:'🦆', palavra:'PATO', imagemCerta:'🦆', outros:['🐱'], falaNpc:(n)=>`Oi, oi, ${n}! Eu mesmo sou um PATO! Toca na figura do pato!` },
+  { npc:'Peixinho Fininho', emoji:'🐟', palavra:'PEIXE', imagemCerta:'🐟', outros:['🐱'], falaNpc:(n)=>`Oi, ${n}! Eu sou um PEIXE! Toca na figura do peixinho!` },
+];
+
+const FRASES = [
+  { tokens:['O','MENINO','CHUTA','A','BOLA'], emoji:'⚽' },
+  { tokens:['O','GATO','SOBE','NA','ÁRVORE'], emoji:'🐱' },
+  { tokens:['A','MENINA','PEGA','A','FLOR'], emoji:'🌸' },
+  { tokens:['O','CACHORRO','CORRE','NO','PARQUE'], emoji:'🐶' },
+];
+const TODAS_PALAVRAS_FRASE = (function(){
+  var todas = [];
+  for(var i=0;i<FRASES.length;i++){ todas = todas.concat(FRASES[i].tokens); }
+  return todas.filter(function(v,i){ return todas.indexOf(v)===i; });
+})();
+const BUDDIES_FASE4 = [
+  { npc:'Pajem Pedro', emoji:'🧑‍🍳', tokens:['O','PATO','NADA'], falaNpc:(n)=>`Oi, ${n}! Eu adoro frases bem simples. Vamos montar: "O PATO NADA"?` },
+  { npc:'Cozinheira Dona Sopa', emoji:'👩‍🍳', tokens:['A','SOPA','FERVE'], falaNpc:(n)=>`Oi, ${n}! Vem treinar comigo: "A SOPA FERVE"!` },
+  { npc:'Guarda Gui', emoji:'💂', tokens:['O','GUARDA','CORRE'], falaNpc:(n)=>`Oi, ${n}! Vamos treinar: "O GUARDA CORRE"!` },
+];
+
+const CONFUSOR_PALAVRAS = [
+  { frase:'O dia está com muito', palavra:'SOL', emoji:'☀️' },
+  { frase:'A noite tem uma linda', palavra:'LUA', emoji:'🌙' },
+  { frase:'Ele mia alto, é um', palavra:'GATO', emoji:'🐱' },
+  { frase:'A criança chuta a', palavra:'BOLA', emoji:'⚽' },
+];
+
+/* =========================================================
+   CENA 0 — título
+   ========================================================= */
+function cenaTitulo(){
+  const salvo = carregarProgresso();
+  const temHeroi = salvo && salvo.nome;
+  mostrarCena(`
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%; text-align:center;">
+      <div style="font-size:10vw;">📖✨</div>
+      <h1 class="titulo-jogo">O Reino das<br>Letras Perdidas</h1>
+      ${temHeroi
+        ? `<button class="btn-grande" onclick="continuarProgressoSalvo()">Continuar, ${salvo.nome}!</button>
+           <button class="btn-grande btn-secundario" style="font-size:0.75rem; padding:8px 18px;" onclick="if(confirm('Isso vai apagar o progresso de ${salvo.nome} e começar um herói novo. Tem certeza?')) apagarProgresso();">Começar um herói novo</button>`
+        : `<button class="btn-grande" onclick="cenaCriarNome()">Toque para começar</button>`
+      }
+      <button class="btn-grande btn-secundario" onclick="tentarInstalar()" style="font-size:0.9rem; padding:10px 22px;">📲 Instalar na tela inicial</button>
+    </div>
+  `, ()=> falar(temHeroi ? `Bem-vinda de volta, ${salvo.nome}! Toque em continuar para retomar sua aventura!` : 'Era uma vez um Reino chamado Vogalis, onde tudo era feito de letrinhas mágicas. Mas um dia, um espirro gigante bagunçou tudo! Será que você pode ajudar?'));
+}
+
+/* =========================================================
+   CENA 1 — criação do nome do herói
+   ========================================================= */
+function cenaCriarNome(){
+  mostrarCena(`
+    ${botaoAudio('Toque nas letrinhas para escrever seu nome. Se errar, é só apertar a setinha e tentar de novo!')}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--magia); color:white;">🪞</div>
+      <p class="subtitulo">Toque no espelho mágico e escreva seu nome de herói!</p>
+      <div class="campo-nome" id="campoNome">&nbsp;</div>
+      <div class="teclado" id="teclado"></div>
+      <button class="btn-grande" id="btnConfirmarNome" style="display:none;" onclick="confirmarNome()">Pronto!</button>
+    </div>
+  `, ()=>{
+    document.getElementById('teclado').innerHTML = fileirasTeclado('digitarLetraNome', true, 'apagarLetraNome');
+    atualizaCampoNome();
+    falar('Toque nas letrinhas para escrever seu nome!');
+  });
+}
+function digitarLetraNome(l){ if(estado.nome.length<10){ estado.nome += l; atualizaCampoNome(); } }
+function apagarLetraNome(){ estado.nome = estado.nome.slice(0,-1); atualizaCampoNome(); }
+function atualizaCampoNome(){
+  document.getElementById('campoNome').textContent = estado.nome || '\u00A0';
+  document.getElementById('btnConfirmarNome').style.display = estado.nome.length>=2 ? 'inline-block':'none';
+}
+function confirmarNome(){
+  falar(`${estado.nome}, a partir de hoje, você é a Guardiã das Letras!`);
+  salvarProgresso();
+  cenaCarregando(0);
+}
+
+/* =========================================================
+   TRANSIÇÕES ENTRE FASES — dá a impressão de abrir um jogo novo
+   a cada fase (tela de carregamento + capa própria com "Jogar")
+   ========================================================= */
+const FASES_INFO = [
+  {numero:1, nome:'Vila das Vogais',        emoji:'🏘️', cor:'var(--sol)',        chegada:'cenaChegadaVila'},
+  {numero:2, nome:'Floresta das Sílabas',   emoji:'🌳', cor:'var(--grama)',      chegada:'cenaChegadaFloresta'},
+  {numero:3, nome:'Ponte das Palavras',     emoji:'🌉', cor:'var(--ceu-escuro)', chegada:'cenaChegadaPonte'},
+  {numero:4, nome:'Castelo das Frases',     emoji:'🏰', cor:'var(--magia)',      chegada:'cenaChegadaCastelo'},
+  {numero:5, nome:'O Confusor',             emoji:'🌀', cor:'var(--coral)',      chegada:'cenaChegadaConfusor'},
+];
+function cenaCarregando(indiceFase){
+  const info = FASES_INFO[indiceFase];
+  mostrarCena(`
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%;">
+      <div class="spinner"></div>
+      <p class="subtitulo" style="margin-top:2.5vh;">Carregando Jogo ${info.numero}...</p>
+    </div>
+  `);
+  setTimeout(()=>cenaTituloDeFase(indiceFase), 1400);
+}
+function cenaTituloDeFase(indiceFase){
+  const info = FASES_INFO[indiceFase];
+  mostrarCena(`
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%; text-align:center;">
+      <div class="capa-jogo-avatar" style="background:${info.cor};">${icone(info.emoji)}</div>
+      <p class="capa-jogo-rotulo">JOGO ${info.numero}</p>
+      <h1 class="titulo-jogo" style="color:var(--tinta); text-shadow:none; font-size:7vw;">${info.nome}</h1>
+      <button class="btn-grande" onclick="${info.chegada}()">▶ Jogar</button>
+    </div>
+  `, ()=> falar(`Jogo ${info.numero}: ${info.nome}!`));
+}
+// tela de carregamento simples usada ao retomar um progresso salvo (sem o cartão de "Jogar",
+// já que nesse caso a criança está voltando no meio de uma fase, não abrindo um jogo novo)
+function cenaCarregandoRetomada(aoTerminar){
+  mostrarCena(`
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:90%;">
+      <div class="spinner"></div>
+      <p class="subtitulo" style="margin-top:2.5vh;">Carregando sua aventura...</p>
+    </div>
+  `);
+  setTimeout(aoTerminar, 900);
+}
+
+/* =========================================================
+   FASE 1 — VILA DAS VOGAIS
+   ========================================================= */
+function cenaChegadaVila(){
+  const texto = `Ufa, que bom que você chegou, ${estado.nome}! Todas as portas da vila perderam suas letrinhas! Você vai precisar encontrar as cinco vogais: A, E, I, O, U!`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--sol);">👴</div>
+      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${texto}</p></div>
+      <button class="btn-grande" onclick="estado.vogalIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioVogal();">Vamos lá!</button>
+    </div>
+  `, ()=> falar(texto));
+}
+function opcoesParaTentativa(valorCorreto, todosPossiveis, numOpcoes){
+  const outras = todosPossiveis.filter(v=>v!==valorCorreto);
+  return embaralha([valorCorreto, ...amostra(outras, Math.min(numOpcoes-1, outras.length))]);
+}
+function cenaDesafioVogal(){
+  const v = VOGAIS[estado.vogalIndex];
+  const numOpcoes = estado.erros===0?4 : estado.erros===1?3 : estado.erros===2?2 : 1;
+  const opcoes = opcoesParaTentativa(v.letra, VOGAIS.map(x=>x.letra), numOpcoes);
+  const exemplo = exemploDaTentativa(v, estado.erros);
+  const casinhas = VOGAIS.map((vg,i)=>`<div class="casinha"><div class="telhado"></div><div class="parede ${i<estado.vogalIndex?'completa':''}">${i<estado.vogalIndex?vg.letra:'?'}</div></div>`).join('');
+  const textoInstrucao = `Escute com atenção: "${v.som}" de ${exemplo.palavra}! Toque na letrinha que faz esse som!`;
+  mostrarCena(`
+    ${botaoAudio(textoInstrucao)}
+    <div class="vila">${casinhas}</div>
+    <div class="painel">
+      <div class="npc-avatar" style="background:var(--sol);">👴</div>
+      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${icone(exemplo.emoji)} ${textoInstrucao}</p></div>
+      <div class="opcoes">${opcoes.map(l=>`<button class="bolha-opcao" onclick="tentarVogal('${l}','${v.letra}', this)">${l}</button>`).join('')}</div>
+      <div class="progresso">${VOGAIS.map((_,i)=>`<div class="bolinha ${i<estado.vogalIndex?'feita':''}"></div>`).join('')}</div>
+    </div>
+  `, ()=> falar(textoInstrucao));
+}
+function tentarVogal(escolhida, correta, elemento){
+  if(escolhida===correta){
+    elemento.classList.add('certa-anim');
+    falar(`Isso! Essa é a letra ${correta}!`);
+    setTimeout(()=>{
+      estado.erros=0; estado.vogalIndex++;
+      salvarProgresso();
+      if(estado.vogalIndex>=VOGAIS.length) cenaFimFase1(); else cenaDesafioVogal();
+    },700);
+  } else {
+    elemento.classList.add('errada-anim');
+    estado.erros++;
+    if(estado.erros<=3) setTimeout(()=>cenaDesvioVogal(VOGAIS[estado.vogalIndex]),500);
+    else setTimeout(()=>cenaDesafioVogal(),500);
+  }
+}
+function cenaDesvioVogal(v){
+  const fala = v.falaNpc(estado.nome);
+  const outraLetra = VOGAIS.filter(x=>x.letra!==v.letra)[0].letra;
+  mostrarCena(`
+    ${botaoAudio(fala)}
+    <div class="painel" style="margin-top:6vh;">
+      <div class="npc-avatar" style="background:var(--grama);">${icone(v.emoji)}</div>
+      <div class="balao-fala"><span class="balao-nome">${v.npc}:</span><p class="balao-texto">${fala}</p></div>
+      <div class="opcoes">${embaralha([v.letra,outraLetra]).map(l=>`<button class="bolha-opcao ${l===v.letra?'dica':''}" onclick="tentarDesvioVogal('${l}','${v.letra}', this)">${l}</button>`).join('')}</div>
+    </div>
+  `, ()=> falar(fala));
+}
+function tentarDesvioVogal(escolhida, correta, elemento){
+  if(escolhida===correta){
+    elemento.classList.add('certa-anim');
+    falar('Isso mesmo! Agora vai lá e mostra que você já sabe!');
+    setTimeout(()=>cenaDesafioVogal(),900);
+  } else elemento.classList.add('errada-anim');
+}
+function cenaFimFase1(){
+  const texto = `${estado.nome}, você conseguiu! A, E, I, O, U estão de volta! Você ganhou o Chapéu de Guardião das Vogais!`;
+  estado.faseAtual = 2; salvarProgresso();
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:5vh;">
+      <div style="font-size:8vw;">🎉👑</div>
+      <div class="balao-fala"><span class="balao-nome">Seu Vogalino:</span><p class="balao-texto">${texto}</p></div>
+      ${mapaHTML(1)}
+      <button class="btn-grande" onclick="cenaCarregando(1)">Continuar para a Floresta</button>
+    </div>
+  `, ()=> falar(texto));
+}
+
+/* =========================================================
+   FASE 2 — FLORESTA DAS SÍLABAS
+   ========================================================= */
+function cenaChegadaFloresta(){
+  const texto = `Uhu, uhu! Que bom te ver, ${estado.nome}! Aqui na floresta as palavras se quebraram em sílabas! Junte as sílabas certinhas para formar as palavras de novo!`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--grama);">🦉</div>
+      <div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${texto}</p></div>
+      <button class="btn-grande" onclick="estado.silabaIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioSilaba();">Vamos lá!</button>
+    </div>
+  `, ()=> falar(texto));
+}
+function cenaDesafioSilaba(){
+  const item = SILABAS[estado.silabaIndex];
+  const numDistratoras = estado.erros===0?2 : estado.erros===1?1 : 0;
+  const outras = TODAS_SILABAS.filter(s=>!item.partes.includes(s));
+  const banco = embaralha([...item.partes, ...amostra(outras,numDistratoras)]);
+  const forcarOrdem = estado.erros>=3;
+  mostrarCena(`
+    ${botaoAudio(`Essa figura é ${item.emoji}. Toque as sílabas na ordem certa para formar a palavra ${item.palavra}!`)}
+    <div class="painel">
+      <div class="npc-avatar" style="background:var(--grama);">🦉</div>
+      <div style="font-size:8vw;">${icone(item.emoji)}</div>
+      <div class="slots" id="slotsSilaba">${item.partes.map(()=>`<div class="slot">_</div>`).join('')}</div>
+      <div class="opcoes" id="bancoSilabas">
+        ${banco.map((s,i)=>`<button class="peca ${forcarOrdem && s===item.partes[0] ? 'dica':''}" onclick="tentarSilaba('${s}', this)">${s}</button>`).join('')}
+      </div>
+      <div class="progresso">${SILABAS.map((_,i)=>`<div class="bolinha ${i<estado.silabaIndex?'feita':''}"></div>`).join('')}</div>
+    </div>
+  `, ()=> falar(`Essa figura é... toque as sílabas na ordem certa!`));
+  window._montadoSilaba = [];
+}
+function tentarSilaba(silaba, elemento){
+  const item = SILABAS[estado.silabaIndex];
+  const proximaEsperada = item.partes[window._montadoSilaba.length];
+  if(silaba===proximaEsperada){
+    elemento.classList.add('usada');
+    window._montadoSilaba.push(silaba);
+    const slots = document.querySelectorAll('#slotsSilaba .slot');
+    slots[window._montadoSilaba.length-1].textContent = silaba;
+    slots[window._montadoSilaba.length-1].classList.add('preenchido');
+    if(window._montadoSilaba.length === item.partes.length){
+      falar(`Isso mesmo! ${item.partes.join('-')}... ${item.palavra}!`);
+      setTimeout(()=>{
+        estado.erros=0; estado.silabaIndex++; salvarProgresso();
+        if(estado.silabaIndex>=SILABAS.length) cenaFimFase2(); else cenaDesafioSilaba();
+      },800);
+    }
+  } else {
+    elemento.classList.add('errada-anim');
+    estado.erros++;
+    if(estado.erros<=3) setTimeout(()=>cenaDesvioSilaba(BUDDIES_FASE2[estado.erros-1]),500);
+    else setTimeout(()=>cenaDesafioSilaba(),500);
+  }
+}
+function cenaDesvioSilaba(buddy){
+  const fala = buddy.falaNpc(estado.nome);
+  window._alvoDesvioSilaba = buddy.partes;
+  mostrarCena(`
+    ${botaoAudio(fala)}
+    <div class="painel" style="margin-top:6vh;">
+      <div class="npc-avatar" style="background:var(--grama);">${icone(buddy.emoji)}</div>
+      <div class="balao-fala"><span class="balao-nome">${buddy.npc}:</span><p class="balao-texto">${fala}</p></div>
+      <div class="slots" id="slotsDesvio">${buddy.partes.map(()=>`<div class="slot">_</div>`).join('')}</div>
+      <div class="opcoes">${embaralha(buddy.partes).map(s=>`<button class="peca" onclick="tentarSilabaDesvio('${s}', this)">${s}</button>`).join('')}</div>
+    </div>
+  `, ()=> falar(fala));
+  window._montadoDesvio = [];
+}
+function tentarSilabaDesvio(silaba, elemento){
+  const partesAlvo = window._alvoDesvioSilaba;
+  const proxima = partesAlvo[window._montadoDesvio.length];
+  if(silaba===proxima){
+    elemento.classList.add('usada');
+    window._montadoDesvio.push(silaba);
+    const slots = document.querySelectorAll('#slotsDesvio .slot');
+    slots[window._montadoDesvio.length-1].textContent = silaba;
+    slots[window._montadoDesvio.length-1].classList.add('preenchido');
+    if(window._montadoDesvio.length===partesAlvo.length){
+      falar('Isso mesmo! Agora volta lá e mostra que você já sabe juntar as sílabas!');
+      setTimeout(()=>cenaDesafioSilaba(),900);
+    }
+  } else elemento.classList.add('errada-anim');
+}
+function cenaFimFase2(){
+  const texto = `${estado.nome}, você é incrível! Agora toda a floresta sabe juntar suas sílabas de novo! Você ganhou a Capa da Coruja Silabela!`;
+  estado.faseAtual=3; salvarProgresso();
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:5vh;">
+      <div style="font-size:8vw;">🎉🧥</div>
+      <div class="balao-fala"><span class="balao-nome">Coruja Silabela:</span><p class="balao-texto">${texto}</p></div>
+      ${mapaHTML(2)}
+      <button class="btn-grande" onclick="cenaCarregando(2)">Continuar para a Ponte</button>
+    </div>
+  `, ()=> falar(texto));
+}
+
+/* =========================================================
+   FASE 3 — PONTE DAS PALAVRAS CURTAS
+   ========================================================= */
+function cenaChegadaPonte(){
+  const texto = `Ah, olá, ${estado.nome}! Eu tomo conta desta ponte, mas venho me confundindo com as palavras nos portões... Você consegue ler e me ajudar?`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">🧔</div>
+      <div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${texto}</p></div>
+      <button class="btn-grande" onclick="estado.palavraIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioPalavra();">Vamos lá!</button>
+    </div>
+  `, ()=> falar(texto));
+}
+function cenaDesafioPalavra(){
+  const item = PALAVRAS[estado.palavraIndex];
+  const numOpcoes = estado.erros===0?3 : estado.erros===1?2 : 1;
+  const opcoes = opcoesParaTentativa(item.emoji, [item.emoji, ...item.outros], numOpcoes);
+  mostrarCena(`
+    ${botaoAudio(`Toque na palavra para ouvir: ${item.palavra}. Depois toque na figura certa!`)}
+    <div class="painel">
+      <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">🧔</div>
+      <button class="peca" style="font-size:5vw; margin-bottom:1.5vh;" onclick="falar('${item.palavra}')">${item.palavra}</button>
+      <div class="opcoes">${opcoes.map(e=>`<button class="bolha-opcao" onclick="tentarPalavra('${e}','${item.emoji}', this)">${icone(e)}</button>`).join('')}</div>
+      <div class="progresso">${PALAVRAS.map((_,i)=>`<div class="bolinha ${i<estado.palavraIndex?'feita':''}"></div>`).join('')}</div>
+    </div>
+  `, ()=> falar(`Toque na palavra para ouvir, e depois toque na figura certa!`));
+}
+function tentarPalavra(escolhida, correta, elemento){
+  const item = PALAVRAS[estado.palavraIndex];
+  if(escolhida===correta){
+    elemento.classList.add('certa-anim');
+    falar(`Isso mesmo! ${item.palavra}! O portão está aberto!`);
+    setTimeout(()=>{
+      estado.erros=0; estado.palavraIndex++; salvarProgresso();
+      if(estado.palavraIndex>=PALAVRAS.length) cenaFimFase3(); else cenaDesafioPalavra();
+    },700);
+  } else {
+    elemento.classList.add('errada-anim');
+    estado.erros++;
+    if(estado.erros<=3) setTimeout(()=>cenaDesvioPalavra(BUDDIES_FASE3[estado.erros-1]),500);
+    else setTimeout(()=>cenaDesafioPalavra(),500);
+  }
+}
+function cenaDesvioPalavra(buddy){
+  const fala = buddy.falaNpc(estado.nome);
+  mostrarCena(`
+    ${botaoAudio(fala)}
+    <div class="painel" style="margin-top:6vh;">
+      <div class="npc-avatar" style="background:var(--ceu-escuro); color:white;">${icone(buddy.emoji)}</div>
+      <div class="balao-fala"><span class="balao-nome">${buddy.npc}:</span><p class="balao-texto">${fala}</p></div>
+      <button class="peca" style="font-size:1.4rem; margin-bottom:1.2vh;" onclick="falar('${buddy.palavra}')">${buddy.palavra}</button>
+      <div class="opcoes">${embaralha([buddy.imagemCerta,...buddy.outros]).map(e=>`<button class="bolha-opcao ${e===buddy.imagemCerta?'dica':''}" onclick="tentarDesvioPalavra('${e}','${buddy.imagemCerta}', this)">${e}</button>`).join('')}</div>
+    </div>
+  `, ()=> falar(fala));
+}
+function tentarDesvioPalavra(escolhida, correta, elemento){
+  if(escolhida===correta){
+    elemento.classList.add('certa-anim');
+    falar('Isso mesmo! Agora volta lá e mostra pro Seu Pontinho que você já sabe ler!');
+    setTimeout(()=>cenaDesafioPalavra(),900);
+  } else elemento.classList.add('errada-anim');
+}
+function cenaFimFase3(){
+  const texto = `${estado.nome}, muito obrigado! Agora eu consigo ler os portões de novo! Você ganhou a Bota Mágica de Atravessar Pontes!`;
+  estado.faseAtual=4; salvarProgresso();
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:5vh;">
+      <div style="font-size:8vw;">🎉👢</div>
+      <div class="balao-fala"><span class="balao-nome">Seu Pontinho:</span><p class="balao-texto">${texto}</p></div>
+      ${mapaHTML(3)}
+      <button class="btn-grande" onclick="cenaCarregando(3)">Continuar para o Castelo</button>
+    </div>
+  `, ()=> falar(texto));
+}
+
+/* =========================================================
+   FASE 4 — CASTELO DAS FRASES
+   ========================================================= */
+function cenaChegadaCastelo(){
+  const texto = `Que bagunça, ${estado.nome}! As frases dos livros reais se embaralharam! As palavras estão certas, mas fora de ordem — me ajuda a organizar?`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--magia); color:white;">👩‍👑</div>
+      <div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${texto}</p></div>
+      <button class="btn-grande" onclick="estado.fraseIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioFrase();">Vamos lá!</button>
+    </div>
+  `, ()=> falar(texto));
+}
+function cenaDesafioFrase(){
+  const item = FRASES[estado.fraseIndex];
+  const numDistratoras = estado.erros===0?2 : estado.erros===1?1 : 0;
+  const outras = TODAS_PALAVRAS_FRASE.filter(p=>!item.tokens.includes(p));
+  const banco = embaralha([...item.tokens, ...amostra(outras,numDistratoras)]);
+  mostrarCena(`
+    ${botaoAudio(`Olha essa figura! Toque as palavras na ordem certa para montar a frase.`)}
+    <div class="painel">
+      <div class="npc-avatar" style="background:var(--magia); color:white;">👩‍👑</div>
+      <div style="font-size:7vw;">${icone(item.emoji)}</div>
+      <div class="slots" id="slotsFrase">${item.tokens.map(()=>`<div class="slot">_</div>`).join('')}</div>
+      <div class="opcoes" id="bancoFrase">${banco.map(t=>`<button class="peca" onclick="tentarFrase('${t}', this)">${t}</button>`).join('')}</div>
+      <div class="progresso">${FRASES.map((_,i)=>`<div class="bolinha ${i<estado.fraseIndex?'feita':''}"></div>`).join('')}</div>
+    </div>
+  `, ()=> falar('Toque as palavras na ordem certa para montar a frase!'));
+  window._montadoFrase = [];
+}
+function tentarFrase(token, elemento){
+  const item = FRASES[estado.fraseIndex];
+  const proxima = item.tokens[window._montadoFrase.length];
+  if(token===proxima){
+    elemento.classList.add('usada');
+    window._montadoFrase.push(token);
+    const slots = document.querySelectorAll('#slotsFrase .slot');
+    slots[window._montadoFrase.length-1].textContent = token;
+    slots[window._montadoFrase.length-1].classList.add('preenchido');
+    if(window._montadoFrase.length===item.tokens.length){
+      falar(`Isso! "${item.tokens.join(' ')}." Agora a frase faz todo sentido!`);
+      setTimeout(()=>{
+        estado.erros=0; estado.fraseIndex++; salvarProgresso();
+        if(estado.fraseIndex>=FRASES.length) cenaFimFase4(); else cenaDesafioFrase();
+      },900);
+    }
+  } else {
+    elemento.classList.add('errada-anim');
+    estado.erros++;
+    if(estado.erros<=3) setTimeout(()=>cenaDesvioFrase(BUDDIES_FASE4[estado.erros-1]),500);
+    else setTimeout(()=>cenaDesafioFrase(),500);
+  }
+}
+function cenaDesvioFrase(buddy){
+  const fala = buddy.falaNpc(estado.nome);
+  window._alvoDesvioFrase = buddy.tokens;
+  mostrarCena(`
+    ${botaoAudio(fala)}
+    <div class="painel" style="margin-top:6vh;">
+      <div class="npc-avatar" style="background:var(--magia); color:white;">${icone(buddy.emoji)}</div>
+      <div class="balao-fala"><span class="balao-nome">${buddy.npc}:</span><p class="balao-texto">${fala}</p></div>
+      <div class="slots" id="slotsDesvioFrase">${buddy.tokens.map(()=>`<div class="slot">_</div>`).join('')}</div>
+      <div class="opcoes">${embaralha(buddy.tokens).map(t=>`<button class="peca" onclick="tentarDesvioFrase('${t}', this)">${t}</button>`).join('')}</div>
+    </div>
+  `, ()=> falar(fala));
+  window._montadoDesvioFrase = [];
+}
+function tentarDesvioFrase(token, elemento){
+  const tokensAlvo = window._alvoDesvioFrase;
+  const proxima = tokensAlvo[window._montadoDesvioFrase.length];
+  if(token===proxima){
+    elemento.classList.add('usada');
+    window._montadoDesvioFrase.push(token);
+    const slots = document.querySelectorAll('#slotsDesvioFrase .slot');
+    slots[window._montadoDesvioFrase.length-1].textContent = token;
+    slots[window._montadoDesvioFrase.length-1].classList.add('preenchido');
+    if(window._montadoDesvioFrase.length===tokensAlvo.length){
+      falar('Isso mesmo! Agora volta lá e mostra pra Dona Frasela que você já sabe montar frases!');
+      setTimeout(()=>cenaDesafioFrase(),900);
+    }
+  } else elemento.classList.add('errada-anim');
+}
+function cenaFimFase4(){
+  const texto = `${estado.nome}, você organizou todos os livros reais! Você ganhou a Coroa de Leitor Real! Agora só falta encontrar o Confusor!`;
+  estado.faseAtual=5; salvarProgresso();
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:5vh;">
+      <div style="font-size:8vw;">🎉👑</div>
+      <div class="balao-fala"><span class="balao-nome">Dona Frasela:</span><p class="balao-texto">${texto}</p></div>
+      ${mapaHTML(4)}
+      <button class="btn-grande" onclick="cenaCarregando(4)">Encontrar o Confusor</button>
+    </div>
+  `, ()=> falar(texto));
+}
+
+/* =========================================================
+   FASE 5 — CONFRONTO COM O CONFUSOR (escrita ativa)
+   ========================================================= */
+function cenaChegadaConfusor(){
+  const texto = `${estado.nome}, o Confusor não é malvado, ele só é distraído! Para fechar o Grande Alfabeto, você precisa escrever as palavras que faltam!`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:7vh;">
+      <div class="npc-avatar" style="background:var(--coral);">🌀</div>
+      <div class="balao-fala"><span class="balao-nome">Confusor:</span><p class="balao-texto">Ai, ai, desculpa, desculpa! Eu não queria bagunçar nada, foi sem querer, foi o espirro!</p></div>
+      <div class="balao-fala"><span class="balao-nome">Narrador:</span><p class="balao-texto">${texto}</p></div>
+      <button class="btn-grande" onclick="estado.confusorIndex=0; estado.erros=0; salvarProgresso(); cenaDesafioConfusor();">Vamos lá!</button>
+    </div>
+  `, ()=> falar(texto));
+}
+function cenaDesafioConfusor(){
+  const item = CONFUSOR_PALAVRAS[estado.confusorIndex];
+  const jaEscrito = (window._montadoConfusor || []).join('');
+  mostrarCena(`
+    ${botaoAudio(`Toque nas letrinhas para escrever a palavra que falta: ${item.frase}... ${item.palavra}`)}
+    <div class="painel">
+      <div style="font-size:7vw;">${icone(item.emoji)}</div>
+      <p class="subtitulo">"${item.frase} ___"</p>
+      <div class="campo-nome" id="campoConfusor">${'_ '.repeat(item.palavra.length)}</div>
+      <div class="teclado" id="tecladoConfusor"></div>
+      <div class="progresso">${CONFUSOR_PALAVRAS.map((_,i)=>`<div class="bolinha ${i<estado.confusorIndex?'feita':''}"></div>`).join('')}</div>
+    </div>
+  `, ()=>{
+    document.getElementById('tecladoConfusor').innerHTML = fileirasTeclado('tentarLetraConfusor', false);
+    falar(`${item.frase}... toque as letrinhas para completar a palavra!`);
+  });
+  window._montadoConfusor = [];
+}
+function tentarLetraConfusor(letra){
+  const item = CONFUSOR_PALAVRAS[estado.confusorIndex];
+  const proxima = item.palavra[window._montadoConfusor.length];
+  if(letra===proxima){
+    window._montadoConfusor.push(letra);
+    document.getElementById('campoConfusor').textContent = window._montadoConfusor.join(' ') + ' ' + '_ '.repeat(item.palavra.length - window._montadoConfusor.length);
+    if(window._montadoConfusor.length===item.palavra.length){
+      falar(`Isso mesmo! ${item.palavra}!`);
+      setTimeout(()=>{
+        estado.erros=0; estado.confusorIndex++; salvarProgresso();
+        if(estado.confusorIndex>=CONFUSOR_PALAVRAS.length) cenaFimDeJogo(); else cenaDesafioConfusor();
+      },900);
+    }
+  } else {
+    estado.erros++;
+    if(estado.erros>=2){
+      // depois de 2 erros seguidos, destaca a letra certa como dica silenciosa
+      const teclas = document.querySelectorAll('#tecladoConfusor .tecla');
+      teclas.forEach(t=>{ if(t.textContent===proxima) t.classList.add('dica'); });
+    }
+  }
+}
+
+/* =========================================================
+   FIM DE JOGO — epílogo
+   ========================================================= */
+function cenaFimDeJogo(){
+  estado.faseAtual = 6; salvarProgresso();
+  const texto = `Uau... eu nunca soube escrever direito, só sabia bagunçar as letras. Obrigado por me ensinar, ${estado.nome}! Posso ser seu amigo agora?`;
+  mostrarCena(`
+    ${botaoAudio(texto)}
+    <div class="painel" style="margin-top:4vh;">
+      <div style="font-size:9vw;">🎉📖✨</div>
+      <h2 class="titulo">Você é a Guardiã Maior das Letras!</h2>
+      <div class="balao-fala"><span class="balao-nome">Confusor:</span><p class="balao-texto">${texto}</p></div>
+      <div style="font-size:2rem; margin:1vh 0;">👴🦉🧔👩‍👑🌀</div>
+      <p class="subtitulo">Fim de jogo! Obrigado por jogar, ${estado.nome}!</p>
+      <button class="btn-grande btn-secundario" onclick="apagarProgresso()">Jogar de novo com outro herói</button>
+    </div>
+  `, ()=> falar(texto));
+}
+
+/* =========================================================
+   MAPA (usado nas telas de fim de fase)
+   ========================================================= */
+function mapaHTML(faseConcluida){
+  const marcos = [
+    {emoji:'🏘️', nome:'Vila das Vogais'},
+    {emoji:'🌳', nome:'Floresta das Sílabas'},
+    {emoji:'🌉', nome:'Ponte das Palavras'},
+    {emoji:'🏰', nome:'Castelo das Frases'},
+    {emoji:'🌀', nome:'O Confusor'},
+  ];
+  return `<div class="mapa">${marcos.map((m,i)=>{
+    const feito = i < faseConcluida;
+    const atual = i === faseConcluida;
+    const bloqueado = i > faseConcluida;
+    const classes = ['marco'];
+    if(bloqueado) classes.push('bloqueado');
+    if(atual) classes.push('marco-atual');
+    const onclick = !bloqueado ? ` onclick="irParaFase(${i})"` : '';
+    return `<div class="${classes.join(' ')}"${onclick}>
+      <div class="marco-emoji">${icone(m.emoji)}</div>
+      <div class="marco-nome">${m.nome}</div>
+      ${feito ? '<div class="cadeado">✅ jogar de novo</div>' : atual ? '<div class="cadeado">▶ toque aqui</div>' : '<div class="cadeado">🔒</div>'}
+    </div>`;
+  }).join('')}</div>`;
+}
+// navega direto para a fase escolhida no mapa (fases já liberadas ou concluídas)
+function irParaFase(indice){
+  switch(indice){
+    case 0: estado.vogalIndex=0; estado.erros=0; break;
+    case 1: estado.silabaIndex=0; estado.erros=0; break;
+    case 2: estado.palavraIndex=0; estado.erros=0; break;
+    case 3: estado.fraseIndex=0; estado.erros=0; break;
+    case 4: estado.confusorIndex=0; estado.erros=0; break;
+  }
+  cenaCarregando(indice);
+}
+
+/* =========================================================
+   INÍCIO — retoma progresso salvo ou começa do zero
+   ========================================================= */
+function retomarNaFase(){
+  switch(estado.faseAtual){
+    case 1: cenaDesafioVogal(); break;
+    case 2: cenaDesafioSilaba(); break;
+    case 3: cenaDesafioPalavra(); break;
+    case 4: cenaDesafioFrase(); break;
+    case 5: cenaDesafioConfusor(); break;
+    default: cenaFimDeJogo();
+  }
+}
+function continuarProgressoSalvo(){
+  const salvo = carregarProgresso();
+  if(salvo && salvo.nome){
+    Object.assign(estado, salvo, {erros:0});
+    cenaCarregandoRetomada(retomarNaFase);
+  }
+  else cenaCriarNome();
+}
+(function iniciar(){
+  const salvo = carregarProgresso();
+  if(salvo && salvo.nome){
+    Object.assign(estado, salvo, {erros:0});
+    cenaCarregandoRetomada(retomarNaFase);
+  } else {
+    cenaTitulo();
+  }
+})();
+
+// Hook de depuração (não afeta o jogo): útil para suporte técnico e testes automatizados.
+window.__jogoDebug = { estado, VOGAIS, SILABAS, PALAVRAS, FRASES, CONFUSOR_PALAVRAS, BUDDIES_FASE2, BUDDIES_FASE3, BUDDIES_FASE4 };
+</script>
+</body>
+</html>
